@@ -2,4 +2,12 @@
     <string name="app_name">HashPass</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_to_hashlock_register">New To HashLock? Register</string>
+    <string name="continue_with_google">Continue With Google</string>
+    <string name="label_or">OR</string>
+    <string name="login">Login</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="password">Password</string>
+    <string name="email_id">Email ID</string>
+    <string name="login">Login</string>
 </resources>
