@@ -1,4 +1,4 @@
-package com.rohitjakhar.hashlock
+package com.rohitjakhar.hashpass
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

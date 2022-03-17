@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        />
+    <item
+        android:id="@+id/nav_password"
+        android:title="Create Password"
+        />
+    <item
+        android:id="@+id/nav_setting"
+        android:title="Setting"
+        />
+    <item
+        android:id="@+id/nav_add_password"
+        android:title="Add Password"
+        />
+</menu>
+                                                      

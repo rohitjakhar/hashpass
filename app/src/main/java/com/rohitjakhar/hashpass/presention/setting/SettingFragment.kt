@@ -1,11 +1,11 @@
-package com.rohitjakhar.hashlock.presention.setting
+package com.rohitjakhar.hashpass.presention.setting
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.rohitjakhar.hashlock.R
+import com.rohitjakhar.hashpass.R
 
 class SettingFragment : Fragment() {
 
