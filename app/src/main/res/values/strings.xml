@@ -10,4 +10,7 @@
     <string name="password">Password</string>
     <string name="email_id">Email ID</string>
     <string name="login">Login</string>
+    <string name="send_email">Submit</string>
+    <string name="forget_password_lebal">Forget \nPassword?</string>
+    <string name="name">Name</string>
 </resources>
