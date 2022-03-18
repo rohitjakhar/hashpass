@@ -5,7 +5,7 @@
         android:title="Home"
         />
     <item
-        android:id="@+id/nav_password"
+        android:id="@+id/nav_generate_password"
         android:title="Create Password"
         />
     <item

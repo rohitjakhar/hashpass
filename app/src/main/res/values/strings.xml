@@ -5,7 +5,6 @@
     <string name="new_to_hashlock_register">New To HashLock? Register</string>
     <string name="continue_with_google">Continue With Google</string>
     <string name="label_or">OR</string>
-    <string name="login">Login</string>
     <string name="forget_password">Forget Password</string>
     <string name="password">Password</string>
     <string name="email_id">Email ID</string>
@@ -17,4 +16,6 @@
     <string name="choose_category">Select Category</string>
     <string name="url">Url</string>
     <string name="add_password">Add Password</string>
+    <string name="refresh_password">Refresh Password</string>
+    <string name="copy_password">Copy Password</string>
 </resources>

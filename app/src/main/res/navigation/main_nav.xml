@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.rohitjakhar.hashpass.presention.login.LoginFragment"
-        android:label="LoginFragment" >
+        android:label="LoginFragment">
         <action
             android:id="@+id/action_loginFragment_to_forgetPasswordFragment"
             app:destination="@id/forgetPasswordFragment" />
@@ -25,4 +25,29 @@
         android:name="com.rohitjakhar.hashpass.presention.forget_password.ForgetPasswordFragment"
         android:label="fragment_forget_password"
         tools:layout="@layout/fragment_forget_password" />
+    <fragment
+        android:id="@+id/nav_add_password"
+        android:name="com.rohitjakhar.hashpass.presention.add_password.AddPasswordFragment"
+        android:label="fragment_add_password"
+        tools:layout="@layout/fragment_add_password" />
+    <fragment
+        android:id="@+id/nav_generate_password"
+        android:name="com.rohitjakhar.hashpass.presention.generate_password.GeneratePasswordFragment"
+        android:label="fragment_generate_password"
+        tools:layout="@layout/fragment_generate_password" />
+    <fragment
+        android:id="@+id/nav_setting"
+        android:name="com.rohitjakhar.hashpass.presention.setting.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="com.rohitjakhar.hashpass.presention.on_boarding.OnBoardingFragment"
+        android:label="fragment_on_boarding"
+        tools:layout="@layout/fragment_on_boarding" />
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.rohitjakhar.hashpass.presention.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
 </navigation>
