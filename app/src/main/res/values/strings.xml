@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">HashPass</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_to_hashlock_register">New To HashLock? Register</string>
     <string name="continue_with_google">Continue With Google</string>
     <string name="label_or">OR</string>
@@ -18,4 +16,5 @@
     <string name="add_password">Add Password</string>
     <string name="refresh_password">Refresh Password</string>
     <string name="copy_password">Copy Password</string>
+    <string name="sign_up">Sign Up</string>
 </resources>
