@@ -46,12 +46,12 @@ class LoginRepo @Inject constructor(
         emit(Resource.Error(message = it.message.toString()))
     }
 
-    suspend fun logoutUser() = flow<Resource<Unit>> {
+    suspend fun logoutUser() = flow<Resource<Boolean>> {
         emit(Resource.Loading())
         try {
             firebaseAuth.signOut()
             dataStorePref.changeLogin(false)
-            emit(Resource.Sucess(Unit))
+            emit(Resource.Sucess(true))
         } catch (
             e: Exception
         ) {
