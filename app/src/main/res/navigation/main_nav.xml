@@ -49,5 +49,14 @@
         android:id="@+id/nav_home"
         android:name="com.rohitjakhar.hashpass.presention.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_passwordDetailsFragment"
+            app:destination="@id/passwordDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordDetailsFragment"
+        android:name="com.rohitjakhar.hashpass.presention.password_details.PasswordDetailsFragment"
+        android:label="fragment_password_details"
+        tools:layout="@layout/fragment_password_details" />
 </navigation>
