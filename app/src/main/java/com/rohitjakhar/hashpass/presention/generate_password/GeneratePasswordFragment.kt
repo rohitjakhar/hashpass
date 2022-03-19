@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import com.rohitjakhar.hashpass.databinding.FragmentGeneratePasswordBinding
 import com.rohitjakhar.hashpass.utils.PasswordGenerate
 import com.rohitjakhar.hashpass.utils.copyText
+import com.rohitjakhar.hashpass.utils.loadingView
 
 class GeneratePasswordFragment : Fragment() {
     private var _binding: FragmentGeneratePasswordBinding? = null
     private val binding get() = _binding!!
+    private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,6 +30,7 @@ class GeneratePasswordFragment : Fragment() {
 
     private fun initClick() = binding.apply {
         btnRefreshPassword.setOnClickListener {
+            loadingView.show()
             if (validation()) {
                 val passwordLength: Int =
                     inputPasswordLength.editText!!.text.toString().toIntOrNull() ?: 0

@@ -8,7 +8,7 @@ class RemoteRepo @Inject constructor() {
         return Resource.Loading()
     }
 
-    suspend fun loadCategory(): Resource<Unit> {
+    suspend fun loadCategory(): Resource<List<Unit>> {
         return Resource.Loading()
     }
 

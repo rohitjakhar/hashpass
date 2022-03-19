@@ -34,6 +34,13 @@ class AddPasswordFragment : Fragment() {
     }
 
     private fun initView() = binding.apply {
+        collectCategory()
+    }
+
+    private fun collectCategory() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.addPasswordStatus
+        }
     }
 
     private fun initClick() = binding.apply {

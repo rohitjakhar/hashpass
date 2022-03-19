@@ -17,6 +17,14 @@ class AddPasswordVM @Inject constructor(
     var addPasswordStatus = MutableStateFlow<Resource<Unit>>(Resource.Loading())
         private set
 
+    var categoryListState = MutableStateFlow<Resource<List<Unit>>>(Resource.Loading())
+        private set
+
+    private fun loadCategory() {
+        viewModelScope.launch (IO){
+            categoryListState.emit(remoteRepo.loadCategory())
+        }
+    }
     fun addPassword() {
         viewModelScope.launch(IO) {
             addPasswordStatus.emit(remoteRepo.addPassword())
