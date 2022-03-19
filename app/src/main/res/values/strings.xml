@@ -21,4 +21,11 @@
     <string name="create_password">Create Password</string>
     <string name="setting">Setting</string>
     <string name="add_password">Add Password</string>
+    <string name="password_length">Password Length</string>
+    <string name="digits_e_g_234">Digits (e.g. 234)</string>
+    <string name="letter_e_g_aa">Letter (e.g. Aa)</string>
+    <string name="symbol_e_g">Symbol (e.g. @#$%)</string>
+    <string name="password_created">Password Created</string>
+    <string name="lower_letter_label">Lower Letter (a-z)</string>
+    <string name="upper_letter_label">Upper Letter (A-Z)</string>
 </resources>
