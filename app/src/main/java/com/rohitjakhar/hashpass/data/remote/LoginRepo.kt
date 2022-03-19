@@ -4,6 +4,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
 import com.rohitjakhar.hashpass.utils.Resource
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
@@ -13,7 +15,6 @@ class LoginRepo @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val dataStorePref: PreferenceDataImpl
 ) {
-
     suspend fun loginUser(email: String, password: String) =
         flow<Resource<Unit>> {
             emit(Resource.Loading())
@@ -74,6 +75,20 @@ class LoginRepo @Inject constructor(
             return Resource.Loading()
         } catch (e: Exception) {
             return Resource.Error(message = "")
+        }
+    }
+
+    suspend fun checkLogin() = callbackFlow<Boolean> {
+        firebaseAuth.addAuthStateListener {
+            it.currentUser?.let {
+                trySend(true)
+            } ?: trySend(false)
+            if (it.currentUser == null) {
+                trySend(false)
+            } else trySend(true)
+        }
+        awaitClose {
+            trySend(false)
         }
     }
 }

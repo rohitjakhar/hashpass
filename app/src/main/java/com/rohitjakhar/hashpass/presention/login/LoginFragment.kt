@@ -36,16 +36,16 @@ class LoginFragment : Fragment() {
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
         try {
             if (task.isSuccessful) {
-                loadingView.dismiss()
+                // loadingView.dismiss()
                 val account = task.result
                 account.idToken?.let {
                     viewModel.loginWithGoogle(it)
                 }
             } else {
-                loadingView.dismiss()
+                // loadingView.dismiss()
             }
         } catch (e: Exception) {
-            loadingView.dismiss()
+            // loadingView.dismiss()
         }
     }
 
@@ -67,7 +67,7 @@ class LoginFragment : Fragment() {
     private fun initClick() = binding.apply {
         btnGoogleLogin.setOnClickListener {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(resources.getString(R.string.default_web_client_id))
+                .requestIdToken(resources.getString(com.firebase.ui.auth.R.string.default_web_client_id))
                 .requestEmail()
                 .build()
 

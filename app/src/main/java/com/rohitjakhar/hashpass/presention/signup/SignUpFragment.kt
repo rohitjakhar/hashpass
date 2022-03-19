@@ -73,7 +73,7 @@ class SignUpFragment : Fragment() {
         }
         btnGoogleLogin.setOnClickListener {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(resources.getString(R.string.default_web_client_id))
+                .requestIdToken(resources.getString(com.firebase.ui.auth.R.string.default_web_client_id))
                 .requestEmail()
                 .build()
 

@@ -13,8 +13,12 @@
     <string name="category">Category</string>
     <string name="choose_category">Select Category</string>
     <string name="url">Url</string>
-    <string name="add_password">Add Password</string>
     <string name="refresh_password">Refresh Password</string>
     <string name="copy_password">Copy Password</string>
     <string name="sign_up">Sign Up</string>
+    <string name="hello_blank_fragment">Hello</string>
+    <string name="home">Home</string>
+    <string name="create_password">Create Password</string>
+    <string name="setting">Setting</string>
+    <string name="add_password">Add Password</string>
 </resources>

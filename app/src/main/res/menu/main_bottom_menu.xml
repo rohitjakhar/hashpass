@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_home"
-        android:title="Home"
-        />
-    <item
-        android:id="@+id/nav_generate_password"
-        android:title="Create Password"
-        />
-    <item
-        android:id="@+id/nav_setting"
-        android:title="Setting"
-        />
+        android:icon="@drawable/ic_home"
+        android:title="@string/home" />
     <item
         android:id="@+id/nav_add_password"
-        android:title="Add Password"
-        />
+        android:icon="@drawable/ic_add"
+        android:title="@string/add_password" />
+    <item
+        android:id="@+id/nav_generate_password"
+        android:icon="@drawable/ic_lock"
+        android:title="@string/create_password" />
+    <item
+        android:id="@+id/nav_setting"
+        android:icon="@drawable/ic_setting"
+        android:title="@string/setting" />
 </menu>
                                                       
