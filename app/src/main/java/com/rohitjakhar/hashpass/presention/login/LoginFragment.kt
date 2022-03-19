@@ -1,12 +1,18 @@
 package com.rohitjakhar.hashpass.presention.login
 
+import android.app.Activity.RESULT_CANCELED
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.rohitjakhar.hashpass.R
 import com.rohitjakhar.hashpass.databinding.FragmentLoginBinding
 import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.toast
@@ -19,6 +25,29 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: LoginVM by viewModels()
+    private lateinit var googleSignInClient: GoogleSignInClient
+    private val googleSignResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_CANCELED) {
+            result.data?.extras?.keySet()?.forEach {
+            }
+        }
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            if (task.isSuccessful) {
+                loadingView.dismiss()
+                val account = task.result
+                account.idToken?.let {
+                    viewModel.loginWithGoogle(it)
+                }
+            } else {
+                loadingView.dismiss()
+            }
+        } catch (e: Exception) {
+            loadingView.dismiss()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +66,15 @@ class LoginFragment : Fragment() {
 
     private fun initClick() = binding.apply {
         btnGoogleLogin.setOnClickListener {
-            // TODO: Implement Google Login
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(resources.getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+            googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+            val signInIntent = googleSignInClient.signInIntent
+            collectLogin()
+            googleSignResult.launch(signInIntent)
         }
         btnLogin.setOnClickListener {
             // TODO: Invalidate User Details

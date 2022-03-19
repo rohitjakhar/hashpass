@@ -28,4 +28,10 @@ class SignUpVM @Inject constructor(
                 }
         }
     }
+
+    fun loginWithGoogle(idToken: String) {
+        viewModelScope.launch(IO) {
+            loginRepo.loginWithGoogle(idToken)
+        }
+    }
 }

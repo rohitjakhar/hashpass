@@ -1,6 +1,7 @@
 package com.rohitjakhar.hashpass.data.remote
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
 import com.rohitjakhar.hashpass.utils.Resource
 import kotlinx.coroutines.flow.catch
@@ -63,6 +64,16 @@ class LoginRepo @Inject constructor(
             firebaseAuth.sendPasswordResetEmail(email).await()
         } catch (e: Exception) {
             emit(Resource.Error(message = e.localizedMessage))
+        }
+    }
+
+    suspend fun loginWithGoogle(idToken: String): Resource<Unit> {
+        try {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            val result = firebaseAuth.signInWithCredential(credential).await()
+            return Resource.Loading()
+        } catch (e: Exception) {
+            return Resource.Error(message = "")
         }
     }
 }

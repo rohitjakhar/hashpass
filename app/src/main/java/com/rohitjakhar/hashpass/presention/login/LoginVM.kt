@@ -24,8 +24,9 @@ class LoginVM @Inject constructor(
         }
     }
 
-    fun loginWithGoogle() {
+    fun loginWithGoogle(idToken: String) {
         viewModelScope.launch(IO) {
+            loginRepo.loginWithGoogle(idToken)
         }
     }
 }
