@@ -1,12 +1,17 @@
 buildscript {
+    ext {
+        apolloVersion = "2.5.9"
+    }
     repositories {
         google()
+        maven { url 'https://jitpack.io' }
         mavenCentral()
     }
     dependencies {
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.1")
         classpath 'com.google.gms:google-services:4.3.10'
         classpath 'com.google.firebase:firebase-crashlytics-gradle:2.8.1'
+        classpath("com.apollographql.apollo:apollo-gradle-plugin:$apolloVersion")
     }
 }
 plugins {

@@ -7,6 +7,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.firebase.crashlytics'
+    id("com.apollographql.apollo")
 }
 
 android {
@@ -85,5 +86,10 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:8.0.0'
 
     implementation "com.airbnb.android:lottie:4.1.0"
+    implementation 'com.github.hasura.android-sdk:sdk:v0.0.9'
 
+    //apollo graphQL
+    implementation("com.apollographql.apollo:apollo-runtime:$apolloVersion")
+    // Coroutines extensions for easier asynchronicity handling
+    implementation("com.apollographql.apollo:apollo-coroutines-support:$apolloVersion")
 }
