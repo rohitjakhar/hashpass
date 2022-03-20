@@ -13,3 +13,19 @@ query GetPassword {
     uuid
   }
 }
+
+query GetUserDetails ($email: String!) {
+  users(where: {user_email: {_eq: $email}}) {
+    user_email
+    user_id
+    user_image
+    user_name
+  }
+}
+
+mutation InsertUserDetails($email: String!, $userId: String!, $userImage: String!, $userName: String!) {
+  insert_users_one(object: {user_email: $email, user_id: $userId, user_image: $userImage, user_name: $userName}) {
+    user_id
+  }
+}
+

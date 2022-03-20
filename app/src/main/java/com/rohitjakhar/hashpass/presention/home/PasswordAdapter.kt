@@ -30,6 +30,9 @@ class PasswordAdapter(private val onClick: (String) -> Unit) :
         fun bind(data: PasswordModel) = binding.apply {
             tvTitle.text = data.title
             tvUserName.text = data.userName ?: data.email
+            root.setOnClickListener {
+                onClick.invoke(data.uuid)
+            }
         }
     }
 

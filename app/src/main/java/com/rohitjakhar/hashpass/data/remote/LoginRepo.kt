@@ -1,8 +1,14 @@
 package com.rohitjakhar.hashpass.data.remote
 
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.coroutines.await
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.rohitjakhar.hashpass.GetUserDetailsQuery
+import com.rohitjakhar.hashpass.InsertUserDetailsMutation
 import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
+import com.rohitjakhar.hashpass.data.model.UserDetailsModel
+import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -13,16 +19,24 @@ import javax.inject.Inject
 
 class LoginRepo @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
-    private val dataStorePref: PreferenceDataImpl
+    private val dataStorePref: PreferenceDataImpl,
+    private val apolloClient: ApolloClient
 ) {
     suspend fun loginUser(email: String, password: String) =
         flow<Resource<Unit>> {
             emit(Resource.Loading())
             val response = firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            response.user?.let { firebaseUser ->
-                // TODO: Retrive User Data from Hasura
-                dataStorePref.changeLogin(true)
-                emit(Resource.Sucess(Unit))
+            response.user?.let {
+                when (val hasura = getUserDataFromHasura(email)) {
+                    is Resource.Error -> {
+                        emit(Resource.Error(message = "Failed"))
+                    }
+                    is Resource.Loading -> {}
+                    is Resource.Sucess -> {
+                        dataStorePref.changeLogin(true)
+                        emit(Resource.Sucess(data = Unit))
+                    }
+                }
             } ?: emit(Resource.Error(message = "Failed"))
         }.catch {
             emit(Resource.Error(message = it.localizedMessage))
@@ -37,9 +51,19 @@ class LoginRepo @Inject constructor(
         val response = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
         response.user?.let {
             // TODO: Add User to Hasura
-            dataStorePref.changeLogin(true)
-            it.uid
-            emit(Resource.Loading())
+            if (addUserDataToHasura(
+                    email = email,
+                    userName = username,
+                    useId = it.uid,
+                    userImage = it.photoUrl.toString()
+                )
+            ) {
+                dataStorePref.changeLogin(true)
+                it.uid
+                emit(Resource.Sucess(Unit))
+            } else {
+                emit(Resource.Error(message = "Unknown Error"))
+            }
         } ?: emit(Resource.Error(message = "Error"))
     }.catch {
         firebaseAuth.signOut()
@@ -68,13 +92,83 @@ class LoginRepo @Inject constructor(
         }
     }
 
-    suspend fun loginWithGoogle(idToken: String): Resource<Unit> {
+    suspend fun loginWithGoogle(idToken: String) = flow<Resource<Unit>> {
         try {
             val credential = GoogleAuthProvider.getCredential(idToken, null)
             val result = firebaseAuth.signInWithCredential(credential).await()
-            return Resource.Loading()
+            if (result.user != null) {
+                if (!result.additionalUserInfo!!.isNewUser) {
+                    // When user is old
+                    result.user!!.email?.let {
+                        when (val userData = getUserDataFromHasura(it)) {
+                            is Resource.Error -> {
+                                emit(Resource.Error(message = userData.message))
+                            }
+                            is Resource.Loading -> {}
+                            is Resource.Sucess -> {
+                                dataStorePref.changeLogin(true)
+                                emit(Resource.Sucess(data = Unit))
+                            }
+                        }
+                    } ?: emit(Resource.Error(errorType = ErrorType.EMPTY_DATA))
+                } else {
+                    // TODO: Add User Details at Hasura
+                    val user = result.user!!
+                    if (addUserDataToHasura(
+                            email = user.email!!,
+                            useId = user.uid,
+                            userName = user.displayName ?: "No Name",
+                            userImage = user.photoUrl.toString()
+                        )
+                    ) {
+                        emit(Resource.Sucess(Unit))
+                    } else {
+                        emit(Resource.Error(message = "Unknown Issue"))
+                    }
+                }
+            } else emit(Resource.Error(errorType = ErrorType.EMPTY_DATA))
         } catch (e: Exception) {
-            return Resource.Error(message = "")
+            emit(Resource.Error(message = e.localizedMessage ?: "Unknown Error"))
+        }
+    }
+
+    private suspend fun getUserDataFromHasura(userEmail: String): Resource<UserDetailsModel> {
+        try {
+            val task = apolloClient.query(GetUserDetailsQuery(userEmail)).await()
+            task.data?.let {
+                val user = it.users().firstOrNull()
+                return if (user != null) {
+                    val userModel = UserDetailsModel(
+                        email = user.user_email(),
+                        name = user.user_name(),
+                        id = user.user_id()
+                    )
+                    Resource.Sucess(data = userModel)
+                } else {
+                    Resource.Error(errorType = ErrorType.EMPTY_DATA, message = "User Not Found!")
+                }
+            } ?: return Resource.Error(
+                errorType = ErrorType.EMPTY_DATA,
+                message = "User Not Found!"
+            )
+        } catch (e: Exception) {
+            return Resource.Error(errorType = ErrorType.EMPTY_DATA, message = "User Not Found!")
+        }
+    }
+
+    private suspend fun addUserDataToHasura(
+        email: String,
+        useId: String,
+        userImage: String,
+        userName: String
+    ): Boolean {
+        return try {
+            val task =
+                apolloClient.mutate(InsertUserDetailsMutation(email, useId, userImage, userName))
+                    .await()
+            !task.hasErrors()
+        } catch (e: Exception) {
+            false
         }
     }
 

@@ -15,14 +15,10 @@ import javax.inject.Inject
 class HomeVM @Inject constructor(
     private val remoteRepo: RemoteRepo
 ) : ViewModel() {
-    init {
-        getPasswordList()
-    }
-
     var passwordListState = MutableStateFlow<Resource<List<PasswordModel>>>(Resource.Loading())
         private set
 
-    private fun getPasswordList() {
+    fun getPasswordList() {
         viewModelScope.launch(IO) {
             passwordListState.emit(Resource.Loading())
             passwordListState.emit(remoteRepo.getPasswords())
