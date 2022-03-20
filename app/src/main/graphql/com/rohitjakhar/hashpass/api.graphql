@@ -29,3 +29,8 @@ mutation InsertUserDetails($email: String!, $userId: String!, $userImage: String
   }
 }
 
+mutation InsertPassword($title: String, $createdAt: bigint, $descriptions: String, $email: String, $password: String, $remarks: String, $securityQuestion: String, $securityAnswer: String, $url: String, $userId: String, $userName: String, $uuid: uuid) {
+  insert_password_one(object: {Title: $title, createdAt: $createdAt, descriptions: $descriptions, email: $email, password: $password, remarks: $remarks, security_answer: $securityAnswer, security_question: $securityQuestion, url: $url, user_id: $userId, username: $userName, uuid: $uuid}) {
+    uuid
+  }
+}

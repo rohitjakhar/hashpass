@@ -16,5 +16,6 @@ data class PasswordModel(
     val description: String? = null,
     val securityQuestion: String? = null,
     val securityAnswer: String? = null,
-    val remarks: String? = null
+    val remarks: String? = null,
+    val userId: String
 ) : Parcelable

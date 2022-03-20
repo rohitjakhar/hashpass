@@ -500,6 +500,12 @@
             "deprecationReason": null
           },
           {
+            "name": "user_id",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "username",
             "description": "column name",
             "isDeprecated": false,
@@ -612,6 +618,16 @@
           },
           {
             "name": "url",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "user_id",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -826,6 +842,16 @@
           },
           {
             "name": "url",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "user_id",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -1480,6 +1506,22 @@
             "deprecationReason": null
           },
           {
+            "name": "user_id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "username",
             "description": null,
             "args": [],
@@ -1883,6 +1925,18 @@
             "deprecationReason": null
           },
           {
+            "name": "user_id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "username",
             "description": null,
             "args": [],
@@ -2015,6 +2069,18 @@
           },
           {
             "name": "url",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user_id",
             "description": null,
             "args": [],
             "type": {
@@ -3379,6 +3445,16 @@
             "defaultValue": null
           },
           {
+            "name": "user_id",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "username",
             "description": null,
             "type": {
@@ -3535,6 +3611,12 @@
           },
           {
             "name": "url",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "user_id",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -3835,6 +3917,16 @@
           },
           {
             "name": "url",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "user_id",
             "description": null,
             "type": {
               "kind": "SCALAR",
