@@ -1,0 +1,15 @@
+query GetPassword {
+  password {
+    Title
+    createdAt
+    descriptions
+    email
+    password
+    remarks
+    security_answer
+    security_question
+    url
+    username
+    uuid
+  }
+}
