@@ -1,5 +1,6 @@
 package com.rohitjakhar.hashpass.di
 
+import android.os.SystemClock
 import com.apollographql.apollo.ApolloClient
 import com.rohitjakhar.hashpass.BuildConfig
 import dagger.Module
@@ -33,6 +34,6 @@ object ApolloModel {
     ): ApolloClient =
         ApolloClient.builder()
             .okHttpClient(okHttpClient)
-            .serverUrl("")
+            .serverUrl(BuildConfig.HASURA_URL)
             .build()
 }

@@ -27,9 +27,9 @@ class RemoteRepo @Inject constructor(
         try {
             val task = apolloClient.query(GetPasswordQuery()).await()
             if (!task.hasErrors()) {
-                task.data?.let {
+                task.data?.let { data ->
                     val passwordList = mutableListOf<PasswordModel>()
-                    it.password().forEach {
+                    data.password().forEach {
                         passwordList.add(
                             PasswordModel(
                                 email = it.email(),
