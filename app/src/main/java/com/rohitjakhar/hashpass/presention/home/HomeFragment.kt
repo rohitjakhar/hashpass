@@ -1,13 +1,13 @@
 package com.rohitjakhar.hashpass.presention.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitjakhar.hashpass.databinding.FragmentHomeBinding
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
@@ -20,6 +20,10 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<HomeVM>()
+    private val passwordAdapter by lazy {
+        PasswordAdapter { passwordId ->
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +36,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initPasswordRV()
         collectData()
+    }
+
+    private fun initPasswordRV() {
+        binding.rvPassword.apply {
+            adapter = passwordAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
     }
 
     private fun collectData() {
@@ -53,7 +65,7 @@ class HomeFragment : Fragment() {
                         toast("Loading")
                     }
                     is Resource.Sucess -> {
-                        Log.d("test", "data list: ${it.data}")
+                        passwordAdapter.submitList(it.data)
                     }
                 }
             }
