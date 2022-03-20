@@ -9,6 +9,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.rohitjakhar.hashpass.databinding.ActivityMainBinding
+import com.rohitjakhar.hashpass.utils.hide
+import com.rohitjakhar.hashpass.utils.show
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -27,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager: NavHostFragment =
             supportFragmentManager.findFragmentById(R.id.main_container) as NavHostFragment
         navController = fragmentManager.navController
-
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_home,
@@ -36,7 +37,38 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_setting
             )
         )
+        handleBottomBar()
         binding.bottomNavBar.setupWithNavController(navController)
+    }
+
+    private fun handleBottomBar() {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.nav_home -> {
+                    showBar()
+                }
+                R.id.nav_add_password -> {
+                    showBar()
+                }
+                R.id.nav_generate_password -> {
+                    showBar()
+                }
+                R.id.nav_setting -> {
+                    showBar()
+                }
+                else -> {
+                    hideBar()
+                }
+            }
+        }
+    }
+
+    private fun hideBar() {
+        binding.bottomNavBar.hide()
+    }
+
+    private fun showBar() {
+        binding.bottomNavBar.show()
     }
 
     private fun collectAuth() {

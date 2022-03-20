@@ -4,11 +4,12 @@ import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.os.Build
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.rohitjakhar.hashpass.R
 import com.rohitjakhar.hashpass.databinding.DialogLoadingViewBinding
 
 fun Fragment.toast(message: String) {
@@ -33,4 +34,12 @@ fun Activity.loadingView(loadingText: String? = null, cancelable: Boolean = true
         .setView(binding.root)
         .setCancelable(cancelable)
         .create()
+}
+
+fun View.show() {
+    this.isVisible = true
+}
+
+fun View.hide() {
+    this.isVisible = false
 }
