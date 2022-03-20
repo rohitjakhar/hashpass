@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitjakhar.hashpass.databinding.FragmentHomeBinding
 import com.rohitjakhar.hashpass.utils.ErrorType
@@ -22,6 +23,11 @@ class HomeFragment : Fragment() {
     private val viewModel by viewModels<HomeVM>()
     private val passwordAdapter by lazy {
         PasswordAdapter { passwordId ->
+            findNavController().navigate(
+                HomeFragmentDirections.actionNavHomeToPasswordDetailsFragment(
+                    passwordId
+                )
+            )
         }
     }
 
