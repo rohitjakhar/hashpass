@@ -1,5 +1,6 @@
 package com.rohitjakhar.hashpass.di
 
+import com.apollographql.apollo.ApolloClient
 import com.rohitjakhar.hashpass.BuildConfig
 import dagger.Module
 import dagger.Provides
@@ -12,6 +13,7 @@ import javax.inject.Named
 @Module
 @InstallIn(SingletonComponent::class)
 object ApolloModel {
+
     @Provides
     @Named("graphQLClient")
     fun providesOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient =
@@ -23,5 +25,14 @@ object ApolloModel {
                 builder.header("X-Hasura-Admin-Secret", BuildConfig.HASURA_KEY)
                 chain.proceed(builder.build())
             }
+            .build()
+
+    @Provides
+    fun provideApolloClient(
+        @Named("graphQLClient") okHttpClient: OkHttpClient
+    ): ApolloClient =
+        ApolloClient.builder()
+            .okHttpClient(okHttpClient)
+            .serverUrl("")
             .build()
 }

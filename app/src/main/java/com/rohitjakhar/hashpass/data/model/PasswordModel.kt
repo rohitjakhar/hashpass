@@ -10,7 +10,7 @@ data class PasswordModel(
     val passwordHash: String,
     val createdAt: Long,
     val url: String,
-    val uuid: UUID,
+    val uuid: String,
     val userName: String? = null,
     val title: String,
     val description: String? = null,

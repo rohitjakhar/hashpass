@@ -23,7 +23,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        buildConfigField("String", "HASURA_KEY", properties.getProperty("haurakey", ""))
+        buildConfigField("String", "HASURA_KEY", properties.getProperty("hasurakey", ""))
+        buildConfigField("String", "HASURA_URL", properties.getProperty("hasuraurl", ""))
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
