@@ -141,6 +141,10 @@ class LoginRepo @Inject constructor(
             task.data?.let {
                 val user = it.users().firstOrNull()
                 return if (user != null) {
+                    dataStorePref.updateEmail(user.user_email())
+                    dataStorePref.updateId(user.user_id())
+                    dataStorePref.updateImage(user.user_image() ?: "")
+                    dataStorePref.updateName(user.user_name())
                     Resource.Sucess(data = Unit)
                 } else {
                     Resource.Error(errorType = ErrorType.EMPTY_DATA, message = "User Not Found!")
@@ -164,6 +168,10 @@ class LoginRepo @Inject constructor(
             val task =
                 apolloClient.mutate(InsertUserDetailsMutation(email, useId, userImage, userName))
                     .await()
+            dataStorePref.updateEmail(email)
+            dataStorePref.updateId(useId)
+            dataStorePref.updateImage(userImage)
+            dataStorePref.updateName(userName)
             !task.hasErrors()
         } catch (e: Exception) {
             false
@@ -195,10 +203,13 @@ class LoginRepo @Inject constructor(
                     userDetailsModel.name.toInputString()
                 )
             ).await()
-            if (task.hasErrors()) {
-                return Resource.Error(message = "")
+            return if (task.hasErrors()) {
+                Resource.Error(message = "")
             } else {
-                return Resource.Sucess(Unit)
+                dataStorePref.updateEmail(userDetailsModel.email)
+                dataStorePref.updateImage(userDetailsModel.userImage)
+                dataStorePref.updateName(userDetailsModel.name)
+                Resource.Sucess(Unit)
             }
         } catch (e: Exception) {
             return Resource.Error(message = "")
