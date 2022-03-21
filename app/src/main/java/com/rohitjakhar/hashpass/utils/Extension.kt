@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.apollographql.apollo.api.Input
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputLayout
 import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
 import com.rohitjakhar.hashpass.databinding.DialogLoadingViewBinding
 import kotlinx.coroutines.flow.first
@@ -98,4 +99,8 @@ fun Long.toInputAny(): Input<Any> {
 
 suspend fun PreferenceDataImpl.getUserId(): String {
     return this.userId.first().toString()
+}
+
+fun TextInputLayout.getText(): String {
+    return this.editText?.text.toString()
 }

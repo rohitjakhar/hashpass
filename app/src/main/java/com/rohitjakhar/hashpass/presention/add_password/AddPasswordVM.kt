@@ -20,6 +20,7 @@ class AddPasswordVM @Inject constructor(
 
     fun addPassword(passwordModel: PasswordModel) {
         viewModelScope.launch(IO) {
+            addPasswordStatus.emit(Resource.Loading())
             addPasswordStatus.emit(remoteRepo.addPassword(passwordModel))
         }
     }

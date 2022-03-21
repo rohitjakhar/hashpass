@@ -1,6 +1,5 @@
 package com.rohitjakhar.hashpass.data.remote
 
-import android.util.Log
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import com.rohitjakhar.hashpass.DeletePasswordMutation
@@ -11,7 +10,6 @@ import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
 import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
-import com.rohitjakhar.hashpass.utils.decrypt
 import com.rohitjakhar.hashpass.utils.encrypt
 import com.rohitjakhar.hashpass.utils.getUserId
 import com.rohitjakhar.hashpass.utils.toInputAny
@@ -23,7 +21,11 @@ class RemoteRepo @Inject constructor(
     private val dataStorePref: PreferenceDataImpl
 ) {
     suspend fun addPassword(passwordModel: PasswordModel): Resource<Unit> {
-        return insertPassword(passwordModel)
+        return insertPassword(
+            passwordModel.copy(
+                userId = dataStorePref.getUserId()
+            )
+        )
     }
 
     suspend fun getPasswords(): Resource<List<PasswordModel>> {
@@ -69,7 +71,7 @@ class RemoteRepo @Inject constructor(
                     passwordModel.createdAt.toInputAny(),
                     passwordModel.description.toInputString(),
                     passwordModel.email.toInputString(),
-                    passwordModel.passwordHash.encrypt(passwordModel.uuid).toInputString(),
+                    passwordModel.passwordHash.toInputString(),
                     passwordModel.remarks.toInputString(),
                     passwordModel.securityQuestion.toInputString(),
                     passwordModel.securityAnswer.toInputString(),
@@ -79,7 +81,11 @@ class RemoteRepo @Inject constructor(
                     passwordModel.uuid.toInputAny()
                 )
             ).await()
-            return Resource.Loading()
+            if (task.hasErrors()) {
+                return Resource.Error(message = task.errors?.first()?.message ?: "Unknown Error")
+            } else {
+                return Resource.Sucess(Unit)
+            }
         } catch (e: Exception) {
             return Resource.Error(message = e.localizedMessage ?: "Unknown Error")
         }
