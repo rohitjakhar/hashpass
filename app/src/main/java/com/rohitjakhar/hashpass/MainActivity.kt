@@ -39,12 +39,14 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_setting
             )
         )
+        title = navController.currentDestination?.label
         handleBottomBar()
         binding.bottomNavBar.setupWithNavController(navController)
     }
 
     private fun handleBottomBar() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            title = destination.label
             when (destination.id) {
                 R.id.nav_home -> {
                     showBar()

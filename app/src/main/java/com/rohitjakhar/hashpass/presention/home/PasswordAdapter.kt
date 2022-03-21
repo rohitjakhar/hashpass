@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.transform.CircleCropTransformation
 import com.avatarfirst.avatargenlib.AvatarConstants
 import com.avatarfirst.avatargenlib.AvatarGenerator
 import com.rohitjakhar.hashpass.data.model.PasswordModel
