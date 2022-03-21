@@ -2,8 +2,10 @@ package com.rohitjakhar.hashpass.data.remote
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
+import com.rohitjakhar.hashpass.DeletePasswordMutation
 import com.rohitjakhar.hashpass.GetPasswordQuery
 import com.rohitjakhar.hashpass.InsertPasswordMutation
+import com.rohitjakhar.hashpass.UpdatePasswordMutation
 import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
@@ -16,16 +18,8 @@ import javax.inject.Inject
 class RemoteRepo @Inject constructor(
     private val apolloClient: ApolloClient
 ) {
-    suspend fun addPassword(): Resource<Unit> {
-        return Resource.Loading()
-    }
-
-    suspend fun loadCategory(): Resource<List<Unit>> {
-        return Resource.Loading()
-    }
-
-    suspend fun addCategory(): Resource<Unit> {
-        return Resource.Loading()
+    suspend fun addPassword(passwordModel: PasswordModel): Resource<Unit> {
+        return insertPassword(passwordModel)
     }
 
     suspend fun getPasswords(): Resource<List<PasswordModel>> {
@@ -57,11 +51,11 @@ class RemoteRepo @Inject constructor(
                 return Resource.Error(message = task.errors?.first()?.message ?: "Unknown Error")
             }
         } catch (e: Exception) {
-            return Resource.Error(message = e.localizedMessage)
+            return Resource.Error(message = e.localizedMessage ?: "Unknown Error")
         }
     }
 
-    suspend fun insertPassword(passwordModel: PasswordModel): Resource<Unit> {
+    private suspend fun insertPassword(passwordModel: PasswordModel): Resource<Unit> {
         try {
             val task = apolloClient.mutate(
                 InsertPasswordMutation(
@@ -78,10 +72,50 @@ class RemoteRepo @Inject constructor(
                     passwordModel.userName.toInputString(),
                     passwordModel.uuid.toInputAny()
                 )
-            )
+            ).await()
             return Resource.Loading()
         } catch (e: Exception) {
-            return Resource.Error(message = e.localizedMessage)
+            return Resource.Error(message = e.localizedMessage ?: "Unknown Error")
+        }
+    }
+
+    suspend fun deletePassword(uuid: String): Resource<Unit> {
+        return try {
+            val task = apolloClient.mutate(DeletePasswordMutation(uuid.toInputAny())).await()
+            if (!task.hasErrors()) {
+                Resource.Sucess(Unit)
+            } else {
+                Resource.Error(message = task.errors?.first()?.message ?: "Unknown Error")
+            }
+        } catch (e: Exception) {
+            Resource.Error(message = e.localizedMessage ?: "Unknown Error")
+        }
+    }
+
+    suspend fun updatePassword(passwordModel: PasswordModel): Resource<Unit> {
+        try {
+            val task = apolloClient.mutate(
+                UpdatePasswordMutation(
+                    passwordModel.title.toInputString(),
+                    passwordModel.createdAt.toInputAny(),
+                    passwordModel.description.toInputString(),
+                    passwordModel.email.toInputString(),
+                    passwordModel.passwordHash.encrypt(passwordModel.uuid).toInputString(),
+                    passwordModel.remarks.toInputString(),
+                    passwordModel.securityQuestion.toInputString(),
+                    passwordModel.securityAnswer.toInputString(),
+                    passwordModel.url.toInputString(),
+                    passwordModel.userName.toInputString(),
+                    passwordModel.uuid.toInputAny()
+                )
+            ).await()
+            if (!task.hasErrors()) {
+                return Resource.Sucess(Unit)
+            } else {
+                return Resource.Error(message = task.errors?.first()?.message ?: "Unknown Error")
+            }
+        } catch (e: Exception) {
+            return Resource.Error(message = e.localizedMessage ?: "Unknown Error")
         }
     }
 }

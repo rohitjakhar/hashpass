@@ -34,3 +34,35 @@ mutation InsertPassword($title: String, $createdAt: bigint, $descriptions: Strin
     uuid
   }
 }
+
+mutation DeletePassword($uuid: uuid) {
+  delete_password(where: {uuid: {_eq: $uuid}}) {
+    returning {
+      uuid
+    }
+  }
+}
+
+mutation UpdatePassword($title: String, $createdAt: bigint, $descriptions: String, $email: String, $password: String, $remarks: String, $securityQuestion: String, $securityAnswer: String, $url: String, $userName: String, $uuid: uuid) {
+  update_password(_set: {Title: $title, createdAt: $createdAt, descriptions: $descriptions, email: $email, password: $password, remarks: $remarks, security_answer: $securityAnswer, security_question: $securityQuestion, url: $url, username: $userName}, where: {uuid: {_eq: $uuid}}) {
+    returning {
+      uuid
+    }
+  }
+}
+
+mutation UpdateUser($userid: String, $userEmail: String, $userImage: String, $userName: String) {
+  update_users(where: {user_id: {_eq: $userid}}, _set: {user_email: $userEmail, user_image: $userImage, user_name: $userName}) {
+    returning {
+      user_id
+    }
+  }
+}
+
+mutation DeleteUser($userId: String) {
+  delete_users(where: {user_id: {_eq: $userId}}) {
+    returning {
+      user_id
+    }
+  }
+}

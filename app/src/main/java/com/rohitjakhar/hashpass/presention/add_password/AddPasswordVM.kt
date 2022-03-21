@@ -2,6 +2,7 @@ package com.rohitjakhar.hashpass.presention.add_password
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.data.remote.RemoteRepo
 import com.rohitjakhar.hashpass.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,17 +18,9 @@ class AddPasswordVM @Inject constructor(
     var addPasswordStatus = MutableStateFlow<Resource<Unit>>(Resource.Loading())
         private set
 
-    var categoryListState = MutableStateFlow<Resource<List<Unit>>>(Resource.Loading())
-        private set
-
-    private fun loadCategory() {
-        viewModelScope.launch (IO){
-            categoryListState.emit(remoteRepo.loadCategory())
-        }
-    }
-    fun addPassword() {
+    fun addPassword(passwordModel: PasswordModel) {
         viewModelScope.launch(IO) {
-            addPasswordStatus.emit(remoteRepo.addPassword())
+            addPasswordStatus.emit(remoteRepo.addPassword(passwordModel))
         }
     }
 }
