@@ -34,4 +34,5 @@
     <string name="security_question">Security Question</string>
     <string name="security_answer">Security Answer</string>
     <string name="remarks">Remarks</string>
+    <string name="user_name">User Name</string>
 </resources>
