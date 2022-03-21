@@ -1,5 +1,5 @@
-query GetPassword {
-  password {
+query GetPasswordList($userId: String) {
+  password(where: {user_id: {_eq: $userId}}) {
     Title
     createdAt
     descriptions
@@ -11,6 +11,7 @@ query GetPassword {
     url
     username
     uuid
+    user_id
   }
 }
 

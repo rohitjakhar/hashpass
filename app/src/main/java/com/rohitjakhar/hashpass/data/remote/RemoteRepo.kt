@@ -1,22 +1,26 @@
 package com.rohitjakhar.hashpass.data.remote
 
+import android.util.Log
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import com.rohitjakhar.hashpass.DeletePasswordMutation
-import com.rohitjakhar.hashpass.GetPasswordQuery
+import com.rohitjakhar.hashpass.GetPasswordListQuery
 import com.rohitjakhar.hashpass.InsertPasswordMutation
 import com.rohitjakhar.hashpass.UpdatePasswordMutation
+import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
 import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.decrypt
 import com.rohitjakhar.hashpass.utils.encrypt
+import com.rohitjakhar.hashpass.utils.getUserId
 import com.rohitjakhar.hashpass.utils.toInputAny
 import com.rohitjakhar.hashpass.utils.toInputString
 import javax.inject.Inject
 
 class RemoteRepo @Inject constructor(
-    private val apolloClient: ApolloClient
+    private val apolloClient: ApolloClient,
+    private val dataStorePref: PreferenceDataImpl
 ) {
     suspend fun addPassword(passwordModel: PasswordModel): Resource<Unit> {
         return insertPassword(passwordModel)
@@ -24,7 +28,9 @@ class RemoteRepo @Inject constructor(
 
     suspend fun getPasswords(): Resource<List<PasswordModel>> {
         try {
-            val task = apolloClient.query(GetPasswordQuery()).await()
+            val task =
+                apolloClient.query(GetPasswordListQuery(dataStorePref.getUserId().toInputString()))
+                    .await()
             if (!task.hasErrors()) {
                 task.data?.let { data ->
                     val passwordList = mutableListOf<PasswordModel>()
@@ -32,7 +38,7 @@ class RemoteRepo @Inject constructor(
                         passwordList.add(
                             PasswordModel(
                                 email = it.email(),
-                                passwordHash = it.password().decrypt(it.uuid().toString()),
+                                passwordHash = it.password().toString(),
                                 description = it.descriptions(),
                                 userName = it.username(),
                                 url = it.url() ?: "",
@@ -51,7 +57,7 @@ class RemoteRepo @Inject constructor(
                 return Resource.Error(message = task.errors?.first()?.message ?: "Unknown Error")
             }
         } catch (e: Exception) {
-            return Resource.Error(message = e.localizedMessage ?: "Unknown Error")
+            return Resource.Error(message = e.localizedMessage ?: "Unknown Error Crash")
         }
     }
 
