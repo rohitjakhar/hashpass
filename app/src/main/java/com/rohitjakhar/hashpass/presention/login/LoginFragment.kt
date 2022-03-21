@@ -16,6 +16,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.rohitjakhar.hashpass.R
 import com.rohitjakhar.hashpass.databinding.FragmentLoginBinding
 import com.rohitjakhar.hashpass.utils.Resource
+import com.rohitjakhar.hashpass.utils.loadingView
 import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -27,6 +28,7 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: LoginVM by viewModels()
     private lateinit var googleSignInClient: GoogleSignInClient
+    private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
     private val googleSignResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -37,16 +39,16 @@ class LoginFragment : Fragment() {
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
         try {
             if (task.isSuccessful) {
-                // loadingView.dismiss()
+                loadingView.dismiss()
                 val account = task.result
                 account.idToken?.let {
                     viewModel.loginWithGoogle(it)
                 }
             } else {
-                // loadingView.dismiss()
+                loadingView.dismiss()
             }
         } catch (e: Exception) {
-            // loadingView.dismiss()
+            loadingView.dismiss()
         }
     }
 
@@ -85,11 +87,17 @@ class LoginFragment : Fragment() {
         }
         btnLogin.setOnClickListener {
             // TODO: Invalidate User Details
-            loginUser(
-                inputLayoutEmail.editText!!.text.toString(),
-                inputLayoutPassword.editText!!.text.toString()
-            )
+            if (invalidate()) {
+                loginUser(
+                    inputLayoutEmail.editText!!.text.toString(),
+                    inputLayoutPassword.editText!!.text.toString()
+                )
+            }
         }
+    }
+
+    private fun invalidate(): Boolean {
+        return false
     }
 
     private fun loginUser(email: String, password: String) {
@@ -102,13 +110,15 @@ class LoginFragment : Fragment() {
             viewModel.loginUser.collectLatest {
                 when (it) {
                     is Resource.Error -> {
+                        loadingView.dismiss()
                         toast(it.message)
                     }
                     is Resource.Loading -> {
+                        loadingView.show()
                         toast("Loading")
                     }
                     is Resource.Sucess -> {
-                        toast("Login Success")
+                        loadingView.dismiss()
                     }
                 }
             }

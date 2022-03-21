@@ -1,5 +1,6 @@
 package com.rohitjakhar.hashpass
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.rohitjakhar.hashpass.databinding.ActivityMainBinding
+import com.rohitjakhar.hashpass.presention.AuthActivity
 import com.rohitjakhar.hashpass.utils.hide
 import com.rohitjakhar.hashpass.utils.show
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                         // TODO: navigate to home screen
                     }
                     false -> {
-                        navController.navigate(R.id.loginFragment)
+                        startActivity(Intent(this@MainActivity, AuthActivity::class.java))
                         // TODO: navigate to login screen
                     }
                 }

@@ -47,7 +47,7 @@ class AddPasswordFragment : Fragment() {
         btnAddPassword.setOnClickListener {
             if (invalidate()) {
                 collectAddPasswordState()
-                viewModel.addPassword()
+                //viewModel.addPassword()
             }
         }
     }
