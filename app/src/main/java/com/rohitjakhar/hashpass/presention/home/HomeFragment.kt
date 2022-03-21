@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitjakhar.hashpass.databinding.FragmentHomeBinding
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
+import com.rohitjakhar.hashpass.utils.loadingView
 import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -21,6 +22,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<HomeVM>()
+    private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
     private val passwordAdapter by lazy {
         PasswordAdapter { passwordId ->
             findNavController().navigate(
@@ -59,6 +61,7 @@ class HomeFragment : Fragment() {
             viewModel.passwordListState.collectLatest {
                 when (it) {
                     is Resource.Error -> {
+                        loadingView.dismiss()
                         when (it.errorType) {
                             ErrorType.UNKNOWN -> {
                                 toast("Unknown Error")
@@ -69,9 +72,10 @@ class HomeFragment : Fragment() {
                         }
                     }
                     is Resource.Loading -> {
-                        toast("Loading in Home")
+                        loadingView.show()
                     }
                     is Resource.Sucess -> {
+                        loadingView.dismiss()
                         passwordAdapter.submitList(it.data)
                     }
                 }
@@ -81,6 +85,7 @@ class HomeFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        loadingView.dismiss()
         _binding = null
     }
 }
