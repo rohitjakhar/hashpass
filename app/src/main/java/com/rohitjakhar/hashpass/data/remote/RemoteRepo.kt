@@ -2,6 +2,7 @@ package com.rohitjakhar.hashpass.data.remote
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo.coroutines.toFlow
 import com.rohitjakhar.hashpass.DeletePasswordMutation
 import com.rohitjakhar.hashpass.GetPasswordListQuery
 import com.rohitjakhar.hashpass.InsertPasswordMutation
@@ -14,6 +15,9 @@ import com.rohitjakhar.hashpass.utils.encrypt
 import com.rohitjakhar.hashpass.utils.getUserId
 import com.rohitjakhar.hashpass.utils.toInputAny
 import com.rohitjakhar.hashpass.utils.toInputString
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class RemoteRepo @Inject constructor(

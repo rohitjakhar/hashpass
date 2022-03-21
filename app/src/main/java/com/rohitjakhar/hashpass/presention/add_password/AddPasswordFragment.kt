@@ -12,6 +12,7 @@ import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.databinding.FragmentAddPasswordBinding
 import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.getText
+import com.rohitjakhar.hashpass.utils.loadingView
 import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -22,6 +23,8 @@ class AddPasswordFragment : Fragment() {
     private var _binding: FragmentAddPasswordBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModels<AddPasswordVM>()
+    private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -98,13 +101,14 @@ class AddPasswordFragment : Fragment() {
             viewModel.addPasswordStatus.collectLatest {
                 when (it) {
                     is Resource.Error -> {
+                        loadingView.dismiss()
                         toast(it.message)
                     }
                     is Resource.Loading -> {
-                        toast("Loading...")
+                        loadingView.show()
                     }
                     is Resource.Sucess -> {
-                        toast("Password Added")
+                        loadingView.dismiss()
                     }
                 }
             }
