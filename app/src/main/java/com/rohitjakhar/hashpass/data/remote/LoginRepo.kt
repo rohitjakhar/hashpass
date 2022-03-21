@@ -4,12 +4,15 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.rohitjakhar.hashpass.DeleteUserMutation
 import com.rohitjakhar.hashpass.GetUserDetailsQuery
 import com.rohitjakhar.hashpass.InsertUserDetailsMutation
+import com.rohitjakhar.hashpass.UpdateUserMutation
 import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
 import com.rohitjakhar.hashpass.data.model.UserDetailsModel
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
+import com.rohitjakhar.hashpass.utils.toInputString
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
@@ -132,18 +135,13 @@ class LoginRepo @Inject constructor(
         }
     }
 
-    private suspend fun getUserDataFromHasura(userEmail: String): Resource<UserDetailsModel> {
+    private suspend fun getUserDataFromHasura(userEmail: String): Resource<Unit> {
         try {
             val task = apolloClient.query(GetUserDetailsQuery(userEmail)).await()
             task.data?.let {
                 val user = it.users().firstOrNull()
                 return if (user != null) {
-                    val userModel = UserDetailsModel(
-                        email = user.user_email(),
-                        name = user.user_name(),
-                        id = user.user_id()
-                    )
-                    Resource.Sucess(data = userModel)
+                    Resource.Sucess(data = Unit)
                 } else {
                     Resource.Error(errorType = ErrorType.EMPTY_DATA, message = "User Not Found!")
                 }
@@ -183,6 +181,35 @@ class LoginRepo @Inject constructor(
         }
         awaitClose {
             trySend(false)
+        }
+    }
+
+    suspend fun updateUser(userDetailsModel: UserDetailsModel): Resource<Unit> {
+        try {
+            firebaseAuth.currentUser!!.updateEmail(userDetailsModel.email).await()
+            val task = apolloClient.mutate(
+                UpdateUserMutation(
+                    userDetailsModel.id.toInputString(),
+                    userDetailsModel.email.toInputString(),
+                    userDetailsModel.userImage.toInputString(),
+                    userDetailsModel.name.toInputString()
+                )
+            ).await()
+            if (task.hasErrors()) {
+                return Resource.Error(message = "")
+            } else {
+                return Resource.Sucess(Unit)
+            }
+        } catch (e: Exception) {
+            return Resource.Error(message = "")
+        }
+    }
+
+    suspend fun deleteUserAccount(userId: String) {
+        try {
+            firebaseAuth.currentUser!!.delete().await()
+            val task = apolloClient.mutate(DeleteUserMutation(userId.toInputString())).await()
+        } catch (e: Exception) {
         }
     }
 }
