@@ -7,6 +7,8 @@ import com.rohitjakhar.hashpass.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onEmpty
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,13 +22,17 @@ class LoginVM @Inject constructor(
 
     fun loginUser(email: String, password: String) {
         viewModelScope.launch(IO) {
-            loginRepo.loginUser(email, password)
+            loginRepo.loginUser(email, password).collectLatest {
+                loginUser.emit(it)
+            }
         }
     }
 
     fun loginWithGoogle(idToken: String) {
         viewModelScope.launch(IO) {
-            loginRepo.loginWithGoogle(idToken)
+            loginRepo.loginWithGoogle(idToken).collectLatest {
+                loginUser.emit(it)
+            }
         }
     }
 }

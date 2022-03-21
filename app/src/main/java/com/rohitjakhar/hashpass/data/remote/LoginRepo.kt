@@ -183,12 +183,8 @@ class LoginRepo @Inject constructor(
             it.currentUser?.let {
                 trySend(true)
             } ?: trySend(false)
-            if (it.currentUser == null) {
-                trySend(false)
-            } else trySend(true)
         }
         awaitClose {
-            trySend(false)
         }
     }
 

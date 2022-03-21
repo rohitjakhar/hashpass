@@ -74,19 +74,5 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun collectAuth() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.loginState.collectLatest {
-                when (it) {
-                    true -> {
-                        navController.navigate(R.id.nav_home)
-                        // TODO: navigate to home screen
-                    }
-                    false -> {
-                        startActivity(Intent(this@MainActivity, AuthActivity::class.java))
-                        // TODO: navigate to login screen
-                    }
-                }
-            }
-        }
     }
 }

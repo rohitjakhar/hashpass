@@ -1,6 +1,7 @@
 package com.rohitjakhar.hashpass.presention.login
 
 import android.app.Activity.RESULT_CANCELED
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.rohitjakhar.hashpass.MainActivity
 import com.rohitjakhar.hashpass.R
 import com.rohitjakhar.hashpass.databinding.FragmentLoginBinding
 import com.rohitjakhar.hashpass.utils.Resource
@@ -33,8 +35,7 @@ class LoginFragment : Fragment() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_CANCELED) {
-            result.data?.extras?.keySet()?.forEach {
-            }
+            loadingView.dismiss()
         }
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
         try {
@@ -119,6 +120,14 @@ class LoginFragment : Fragment() {
                     }
                     is Resource.Sucess -> {
                         loadingView.dismiss()
+                        requireActivity().startActivity(
+                            Intent(
+                                requireActivity(),
+                                MainActivity::class.java
+                            )
+                        ).apply {
+                            requireActivity().finish()
+                        }
                     }
                 }
             }

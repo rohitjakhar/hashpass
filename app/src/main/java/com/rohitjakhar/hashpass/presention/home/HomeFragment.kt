@@ -37,12 +37,12 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        viewModel.getPasswordList()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getPasswordList()
         initPasswordRV()
         collectData()
     }
@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
                         }
                     }
                     is Resource.Loading -> {
-                        toast("Loading")
+                        toast("Loading in Home")
                     }
                     is Resource.Sucess -> {
                         passwordAdapter.submitList(it.data)
