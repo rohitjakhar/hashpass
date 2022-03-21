@@ -10,7 +10,13 @@
         android:id="@+id/nav_add_password"
         android:name="com.rohitjakhar.hashpass.presention.add_password.AddPasswordFragment"
         android:label="fragment_add_password"
-        tools:layout="@layout/fragment_add_password" />
+        tools:layout="@layout/fragment_add_password" >
+        <argument
+            android:name="passwordDetails"
+            app:argType="com.rohitjakhar.hashpass.data.model.PasswordModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/nav_generate_password"
         android:name="com.rohitjakhar.hashpass.presention.generate_password.GeneratePasswordFragment"
@@ -41,7 +47,10 @@
         android:label="fragment_password_details"
         tools:layout="@layout/fragment_password_details" >
         <argument
-            android:name="passwordId"
-            app:argType="string" />
+            android:name="passwordDetails"
+            app:argType="com.rohitjakhar.hashpass.data.model.PasswordModel" />
+        <action
+            android:id="@+id/action_passwordDetailsFragment_to_nav_add_password"
+            app:destination="@id/nav_add_password" />
     </fragment>
 </navigation>

@@ -5,10 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
+import com.avatarfirst.avatargenlib.AvatarConstants
+import com.avatarfirst.avatargenlib.AvatarGenerator
 import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.databinding.ItemPasswordBinding
+import java.util.*
 
-class PasswordAdapter(private val onClick: (String) -> Unit) :
+class PasswordAdapter(private val onClick: (PasswordModel) -> Unit) :
     ListAdapter<PasswordModel, PasswordAdapter.PasswordVH>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PasswordVH {
@@ -30,8 +35,16 @@ class PasswordAdapter(private val onClick: (String) -> Unit) :
         fun bind(data: PasswordModel) = binding.apply {
             tvTitle.text = data.title
             tvUserName.text = data.userName ?: data.email
+            ivLogo.load(
+                AvatarGenerator.AvatarBuilder(binding.root.context)
+                    .setAvatarSize(200)
+                    .setTextSize(110)
+                    .toCircle()
+                    .setLabel(data.title.uppercase(Locale.getDefault()))
+                    .build()
+            )
             root.setOnClickListener {
-                onClick.invoke(data.uuid)
+                onClick.invoke(data)
             }
         }
     }
