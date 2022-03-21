@@ -1,6 +1,23 @@
-package com.rohitjakhar.hashpass.utils
+package com.rohitjakhar.hashpass.presention.generate_password
 
-class PasswordGenerate() {
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class GeneratePasswordVM @Inject constructor() : ViewModel() {
+    var isFirstTimePassword: MutableStateFlow<Boolean> = MutableStateFlow(true)
+        private set
+
+    fun changeFirstTime(isFirstTime: Boolean) {
+        viewModelScope.launch {
+            isFirstTimePassword.emit(isFirstTime)
+        }
+    }
+
     fun generatePassword(
         length: Int,
         includeUpperCaseLetters: Boolean,
