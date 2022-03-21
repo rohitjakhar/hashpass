@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.35" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.35" />
         <entry key="app/src/main/res/layout/fragment_on_boarding.xml" value="0.35" />
+        <entry key="app/src/main/res/layout/fragment_password_details.xml" value="0.28730226592560926" />
         <entry key="app/src/main/res/layout/fragment_setting.xml" value="0.35" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.35" />
         <entry key="app/src/main/res/layout/item_password.xml" value="0.28730226592560926" />

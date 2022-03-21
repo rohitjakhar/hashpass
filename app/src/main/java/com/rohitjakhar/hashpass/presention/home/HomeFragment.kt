@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.iammert.library.ui.multisearchviewlib.MultiSearchView
 import com.rohitjakhar.hashpass.databinding.FragmentHomeBinding
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
@@ -45,8 +46,26 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getPasswordList()
+        handleSearch()
         initPasswordRV()
         collectData()
+    }
+
+    private fun handleSearch() {
+        binding.searchViewPassword.setSearchViewListener(object :
+                MultiSearchView.MultiSearchViewListener {
+                override fun onItemSelected(index: Int, s: CharSequence) {
+                }
+
+                override fun onSearchComplete(index: Int, s: CharSequence) {
+                }
+
+                override fun onSearchItemRemoved(index: Int) {
+                }
+
+                override fun onTextChanged(index: Int, s: CharSequence) {
+                }
+            })
     }
 
     private fun initPasswordRV() {
