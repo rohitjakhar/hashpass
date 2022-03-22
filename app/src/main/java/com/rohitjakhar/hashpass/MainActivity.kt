@@ -1,20 +1,17 @@
 package com.rohitjakhar.hashpass
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.rohitjakhar.hashpass.databinding.ActivityMainBinding
-import com.rohitjakhar.hashpass.presention.AuthActivity
 import com.rohitjakhar.hashpass.utils.hide
 import com.rohitjakhar.hashpass.utils.show
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -22,11 +19,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private val viewModel by viewModels<MainViewModel>()
+    val reviewManager = ReviewManagerFactory.create(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        askReview()
         collectAuth()
         val fragmentManager: NavHostFragment =
             supportFragmentManager.findFragmentById(R.id.main_container) as NavHostFragment
@@ -42,6 +41,18 @@ class MainActivity : AppCompatActivity() {
         title = navController.currentDestination?.label
         handleBottomBar()
         binding.bottomNavBar.setupWithNavController(navController)
+    }
+
+    private fun askReview() {
+        val reviewRequest = reviewManager.requestReviewFlow()
+        reviewRequest.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val reviewInfo = task.result
+                val flow = reviewManager.launchReviewFlow(this, reviewInfo)
+                flow.addOnCompleteListener {
+                }
+            }
+        }
     }
 
     private fun handleBottomBar() {
