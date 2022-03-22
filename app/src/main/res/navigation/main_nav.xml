@@ -53,4 +53,9 @@
             android:id="@+id/action_passwordDetailsFragment_to_nav_add_password"
             app:destination="@id/nav_add_password" />
     </fragment>
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.rohitjakhar.hashpass.presention.edit_profile.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
 </navigation>
