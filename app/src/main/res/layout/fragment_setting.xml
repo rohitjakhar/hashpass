@@ -13,8 +13,9 @@
 
         <ImageView
             android:id="@+id/iv_user_image"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:padding="8dp"
             android:src="@drawable/ic_lock"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

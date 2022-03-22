@@ -12,6 +12,7 @@ import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
 import com.rohitjakhar.hashpass.data.model.UserDetailsModel
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
+import com.rohitjakhar.hashpass.utils.getUserDetails
 import com.rohitjakhar.hashpass.utils.toInputString
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -210,6 +211,10 @@ class LoginRepo @Inject constructor(
         } catch (e: Exception) {
             return Resource.Error(message = "")
         }
+    }
+
+    suspend fun getUserDetails(): UserDetailsModel {
+        return dataStorePref.getUserDetails()
     }
 
     suspend fun deleteUserAccount(userId: String) {

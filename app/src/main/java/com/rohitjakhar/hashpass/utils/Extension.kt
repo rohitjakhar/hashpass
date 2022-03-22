@@ -15,6 +15,7 @@ import com.apollographql.apollo.api.Input
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
+import com.rohitjakhar.hashpass.data.model.UserDetailsModel
 import com.rohitjakhar.hashpass.databinding.DialogLoadingViewBinding
 import kotlinx.coroutines.flow.first
 import javax.crypto.Cipher
@@ -99,6 +100,17 @@ fun Long.toInputAny(): Input<Any> {
 
 suspend fun PreferenceDataImpl.getUserId(): String {
     return this.userId.first().toString()
+}
+
+suspend fun PreferenceDataImpl.getUserDetails(): UserDetailsModel {
+    this.apply {
+        return UserDetailsModel(
+            name = userName.first(),
+            email = userEmail.first(),
+            id = userId.first(),
+            userImage = userImage.first()
+        )
+    }
 }
 
 fun TextInputLayout.getText(): String {
