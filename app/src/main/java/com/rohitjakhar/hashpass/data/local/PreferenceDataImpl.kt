@@ -37,6 +37,17 @@ class PreferenceDataImpl @Inject constructor(
             it[PREF_USER_NAME] ?: ""
         }
 
+    override val notificationOn: Flow<Boolean>
+        get() = dataStore.data.map {
+            it[PREF_NOTIFICATION] ?: true
+        }
+
+    override suspend fun updateNotification(isNotificationOn: Boolean) {
+        dataStore.edit {
+            it[PREF_NOTIFICATION] = isNotificationOn
+        }
+    }
+
     override suspend fun changeLogin(isLogin: Boolean) {
         dataStore.edit {
             it[PREF_IS_LOGIN] = isLogin
@@ -73,5 +84,6 @@ class PreferenceDataImpl @Inject constructor(
         private val PREF_USER_EMAIL = stringPreferencesKey("user_email")
         private val PREF_USER_ID = stringPreferencesKey("user_id")
         private val PREF_USER_IMAGE = stringPreferencesKey("user_image")
+        private val PREF_NOTIFICATION = booleanPreferencesKey("notification")
     }
 }
