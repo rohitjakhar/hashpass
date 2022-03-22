@@ -26,7 +26,11 @@
         android:id="@+id/nav_setting"
         android:name="com.rohitjakhar.hashpass.presention.setting.SettingFragment"
         android:label="@string/setting"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_nav_setting_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/onBoardingFragment"
         android:name="com.rohitjakhar.hashpass.presention.on_boarding.OnBoardingFragment"
@@ -56,6 +60,6 @@
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.rohitjakhar.hashpass.presention.edit_profile.EditProfileFragment"
-        android:label="fragment_edit_profile"
+        android:label="Edit Profile"
         tools:layout="@layout/fragment_edit_profile" />
 </navigation>

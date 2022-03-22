@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import coil.load
 import com.avatarfirst.avatargenlib.AvatarConstants
 import com.avatarfirst.avatargenlib.AvatarGenerator
@@ -106,6 +107,9 @@ class SettingFragment : Fragment() {
         }
         switchNotification.setOnCheckedChangeListener { compoundButton, isChecked ->
             viewModel.changeNotification(isChecked)
+        }
+        cvUpdateProfile.setOnClickListener {
+            findNavController().navigate(SettingFragmentDirections.actionNavSettingToEditProfileFragment())
         }
     }
 
