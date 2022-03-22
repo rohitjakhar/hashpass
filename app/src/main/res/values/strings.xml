@@ -35,4 +35,11 @@
     <string name="security_answer">Security Answer</string>
     <string name="remarks">Remarks</string>
     <string name="user_name">User Name</string>
+    <string name="notification">Notification</string>
+    <string name="privacy">Privacy</string>
+    <string name="about">About Us</string>
+    <string name="hasura">About Hasura</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="update_profile">Update Profile</string>
 </resources>
