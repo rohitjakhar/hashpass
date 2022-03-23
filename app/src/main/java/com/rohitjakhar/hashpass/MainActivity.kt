@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private val viewModel by viewModels<MainViewModel>()
-    val reviewManager = ReviewManagerFactory.create(this)
+    private val reviewManager by lazy { ReviewManagerFactory.create(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

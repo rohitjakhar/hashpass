@@ -24,4 +24,38 @@ class AddPasswordVM @Inject constructor(
             addPasswordStatus.emit(remoteRepo.addPassword(passwordModel))
         }
     }
+
+    fun generatePassword(): String {
+        var password = ""
+        val list = ArrayList<Int>()
+        list.add(0)
+        list.add(1)
+        list.add(2)
+        list.add(3)
+
+        for (i in 1..8) {
+            when (list.random()) {
+                0 -> password += ('A'..'Z').random().toString()
+                1 -> password += ('a'..'z').random().toString()
+                2 -> password += ('0'..'9').random().toString()
+                3 -> password += listOf(
+                    '!',
+                    '@',
+                    '#',
+                    '$',
+                    '%',
+                    '&',
+                    '*',
+                    '+',
+                    '=',
+                    '-',
+                    '~',
+                    '?',
+                    '/',
+                    '_'
+                ).random().toString()
+            }
+        }
+        return password
+    }
 }

@@ -1,7 +1,7 @@
 package com.rohitjakhar.hashpass.presention.add_password
 
 import android.os.Bundle
-import android.os.SystemClock
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -71,6 +71,10 @@ class AddPasswordFragment : Fragment() {
                     )
                 )
             }
+        }
+
+        inputPassword.setEndIconOnClickListener {
+            inputPassword.editText?.append(viewModel.generatePassword())
         }
     }
 
