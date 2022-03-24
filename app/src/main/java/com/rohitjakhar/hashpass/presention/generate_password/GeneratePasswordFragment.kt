@@ -11,6 +11,7 @@ import com.rohitjakhar.hashpass.R
 import com.rohitjakhar.hashpass.databinding.FragmentGeneratePasswordBinding
 import com.rohitjakhar.hashpass.utils.copyText
 import com.rohitjakhar.hashpass.utils.loadingView
+import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -71,6 +72,14 @@ class GeneratePasswordFragment : Fragment() {
             copyText(
                 binding.inputPasswordCreated.editText!!.text.toString()
             )
+            toast("Copied!")
+        }
+
+        inputPasswordCreated.setEndIconOnClickListener {
+            copyText(
+                binding.inputPasswordCreated.editText!!.text.toString()
+            )
+            toast("Copied!")
         }
     }
 
