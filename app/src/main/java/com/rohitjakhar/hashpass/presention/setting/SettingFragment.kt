@@ -1,5 +1,6 @@
 package com.rohitjakhar.hashpass.presention.setting
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import coil.load
 import com.avatarfirst.avatargenlib.AvatarConstants
 import com.avatarfirst.avatargenlib.AvatarGenerator
 import com.rohitjakhar.hashpass.databinding.FragmentSettingBinding
+import com.rohitjakhar.hashpass.presention.AuthActivity
 import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.loadingView
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,24 +44,6 @@ class SettingFragment : Fragment() {
         initClick()
         collectNotification()
         collectUserDetails()
-    }
-
-    private fun collectLogoutState() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.logoutState.collectLatest {
-                when (it) {
-                    is Resource.Error -> {
-                        loadingView.dismiss()
-                    }
-                    is Resource.Loading -> {
-                        loadingView.show()
-                    }
-                    is Resource.Sucess -> {
-                        loadingView.dismiss()
-                    }
-                }
-            }
-        }
     }
 
     private fun collectUserDetails() = binding.apply {
@@ -110,6 +94,28 @@ class SettingFragment : Fragment() {
         }
         cvUpdateProfile.setOnClickListener {
             findNavController().navigate(SettingFragmentDirections.actionNavSettingToEditProfileFragment())
+        }
+    }
+
+    private fun collectLogoutState() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.logoutState.collectLatest {
+                when (it) {
+                    is Resource.Error -> {
+                        loadingView.dismiss()
+                    }
+                    is Resource.Loading -> {
+                        loadingView.show()
+                    }
+                    is Resource.Sucess -> {
+                        loadingView.dismiss()
+                        requireActivity().apply {
+                            startActivity(Intent(requireActivity(), AuthActivity::class.java))
+                            finish()
+                        }
+                    }
+                }
+            }
         }
     }
 

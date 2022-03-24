@@ -30,6 +30,7 @@ class SettingVM @Inject constructor(
 
     fun logout() {
         viewModelScope.launch(IO) {
+            logoutState.emit(Resource.Loading())
             loginRepo.logoutUser().collectLatest {
                 logoutState.emit(it)
             }
