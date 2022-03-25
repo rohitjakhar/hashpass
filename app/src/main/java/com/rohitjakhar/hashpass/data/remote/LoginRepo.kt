@@ -91,8 +91,9 @@ class LoginRepo @Inject constructor(
         emit(Resource.Loading())
         try {
             firebaseAuth.sendPasswordResetEmail(email).await()
+            emit(Resource.Sucess(data = Unit))
         } catch (e: Exception) {
-            emit(Resource.Error(message = e.localizedMessage))
+            emit(Resource.Error(message = e.localizedMessage ?: "Unknown Error"))
         }
     }
 

@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.rohitjakhar.hashpass.databinding.FragmentForgetPasswordBinding
 import com.rohitjakhar.hashpass.utils.Resource
+import com.rohitjakhar.hashpass.utils.loadingView
 import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.collectLatest
 class ForgetPasswordFragment : Fragment() {
     private var _binding: FragmentForgetPasswordBinding? = null
     private val binding get() = _binding!!
+    private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
 
     private val viewModel: ForgetPasswordVM by viewModels()
     override fun onCreateView(
@@ -36,9 +38,20 @@ class ForgetPasswordFragment : Fragment() {
 
     private fun initClick() = binding.apply {
         btnSendForgetEmail.setOnClickListener {
-            // TODO:Invalidate EmailID
-            viewModel.resetPassword(inputLayoutEmail.editText!!.text.toString())
-            collectForgetPassword()
+            if (invalidate()) {
+                viewModel.resetPassword(inputLayoutEmail.editText!!.text.toString())
+                collectForgetPassword()
+            }
+        }
+    }
+
+    private fun invalidate(): Boolean {
+        return when {
+            binding.inputLayoutEmail.editText == null || binding.inputLayoutEmail.editText!!.length() < 1 -> {
+                binding.inputLayoutEmail.error = "Enter Email"
+                false
+            }
+            else -> true
         }
     }
 
@@ -47,12 +60,14 @@ class ForgetPasswordFragment : Fragment() {
             viewModel.resetPassword.collectLatest {
                 when (it) {
                     is Resource.Error -> {
+                        loadingView.dismiss()
                         toast(it.message)
                     }
                     is Resource.Loading -> {
-                        toast("Loading...")
+                        loadingView.show()
                     }
                     is Resource.Sucess -> {
+                        loadingView.dismiss()
                         toast("Reset Password Email sent to your email address")
                         findNavController().navigateUp()
                     }
