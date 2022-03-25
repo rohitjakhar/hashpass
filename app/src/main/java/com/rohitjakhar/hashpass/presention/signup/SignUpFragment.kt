@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.rohitjakhar.hashpass.R
 import com.rohitjakhar.hashpass.databinding.FragmentSignUpBinding
 import com.rohitjakhar.hashpass.utils.Resource
+import com.rohitjakhar.hashpass.utils.loadingView
 import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -25,6 +26,8 @@ class SignUpFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<SignUpVM>()
     private lateinit var googleSignInClient: GoogleSignInClient
+    private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
+
     private val googleSignResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -35,16 +38,16 @@ class SignUpFragment : Fragment() {
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
         try {
             if (task.isSuccessful) {
-                // loadingView.dismiss()
+                loadingView.dismiss()
                 val account = task.result
                 account.idToken?.let {
                     viewModel.loginWithGoogle(it)
                 }
             } else {
-                //loadingView.dismiss()
+                loadingView.dismiss()
             }
         } catch (e: Exception) {
-            //loadingView.dismiss()
+            loadingView.dismiss()
         }
     }
 
@@ -94,12 +97,14 @@ class SignUpFragment : Fragment() {
             viewModel.signUpUser.collectLatest { resource ->
                 when (resource) {
                     is Resource.Error -> {
+                        loadingView.dismiss()
                         toast(resource.message)
                     }
                     is Resource.Loading -> {
-                        toast("Loading...")
+                        loadingView.show()
                     }
                     is Resource.Sucess -> {
+                        loadingView.dismiss()
                         toast("Sign Up Success")
                     }
                 }
