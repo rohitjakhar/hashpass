@@ -1,6 +1,8 @@
 package com.rohitjakhar.hashpass.presention.signup
 
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -27,6 +31,8 @@ class SignUpFragment : Fragment() {
     private val viewModel by viewModels<SignUpVM>()
     private lateinit var googleSignInClient: GoogleSignInClient
     private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
+    private var photoUri: Uri = Uri.EMPTY
+    private var imageUrl: String = ""
 
     private val googleSignResult = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -48,6 +54,48 @@ class SignUpFragment : Fragment() {
             }
         } catch (e: Exception) {
             loadingView.dismiss()
+        }
+    }
+
+    private val getUserPhoto =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_CANCELED) {
+                toast("Unknown Error!")
+            }
+            if (result.resultCode == Activity.RESULT_OK) {
+                photoUri = result.data?.data ?: Uri.EMPTY
+            }
+        }
+
+    override fun onResume() {
+        super.onResume()
+        if (photoUri != Uri.EMPTY) {
+            viewModel.uploadImage(photoUri)
+            collectImageUpload()
+            photoUri = Uri.EMPTY
+        }
+    }
+
+    private fun collectImageUpload() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.uploadImageUrl.collectLatest {
+                when (it) {
+                    is Resource.Error -> {
+                        loadingView.dismiss()
+                    }
+                    is Resource.Loading -> {
+                        loadingView.show()
+                    }
+                    is Resource.Sucess -> {
+                        imageUrl = it.data!!
+                        binding.ivUploadPhoto.load(imageUrl) {
+                            transformations(CircleCropTransformation())
+                            error(R.drawable.ic_user)
+                        }
+                        loadingView.dismiss()
+                    }
+                }
+            }
         }
     }
 
@@ -85,11 +133,25 @@ class SignUpFragment : Fragment() {
             collectSignUp()
             googleSignResult.launch(signInIntent)
         }
+
+        ivUploadPhoto.setOnClickListener {
+            val imageIntent = Intent()
+            imageIntent.apply {
+                type = "image/*"
+                action = Intent.ACTION_GET_CONTENT
+            }
+            getUserPhoto.launch(imageIntent)
+        }
     }
 
     private fun signUp(email: String, password: String, name: String) {
         collectSignUp()
-        viewModel.signUpUser(email = email, password = password, name = name)
+        viewModel.signUpUser(
+            email = email,
+            password = password,
+            name = name,
+            profilePhoto = imageUrl
+        )
     }
 
     private fun collectSignUp() {

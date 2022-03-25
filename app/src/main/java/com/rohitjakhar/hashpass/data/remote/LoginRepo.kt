@@ -1,9 +1,12 @@
 package com.rohitjakhar.hashpass.data.remote
 
+import android.net.Uri
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.rohitjakhar.hashpass.DeleteUserMutation
 import com.rohitjakhar.hashpass.GetUserDetailsQuery
 import com.rohitjakhar.hashpass.InsertUserDetailsMutation
@@ -19,6 +22,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import java.util.*
 import javax.inject.Inject
 
 class LoginRepo @Inject constructor(
@@ -49,7 +53,8 @@ class LoginRepo @Inject constructor(
     suspend fun registerUser(
         email: String,
         username: String,
-        password: String
+        password: String,
+        profilePhoto: String
     ) = flow<Resource<Unit>> {
         emit(Resource.Loading())
         val response = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
@@ -59,7 +64,7 @@ class LoginRepo @Inject constructor(
                     email = email,
                     userName = username,
                     useId = it.uid,
-                    userImage = it.photoUrl.toString()
+                    userImage = profilePhoto
                 )
             ) {
                 dataStorePref.changeLogin(true)
@@ -187,6 +192,16 @@ class LoginRepo @Inject constructor(
             } ?: trySend(false)
         }
         awaitClose {
+        }
+    }
+
+    suspend fun uploadPhoto(uri: Uri): Resource<String> {
+        return try {
+            val task =
+                Firebase.storage.reference.child(UUID.randomUUID().toString()).putFile(uri).await()
+            Resource.Sucess(data = task.storage.downloadUrl.await().toString())
+        } catch (e: Exception) {
+            Resource.Error(message = e.localizedMessage ?: "Unknown Error")
         }
     }
 

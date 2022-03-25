@@ -1,5 +1,6 @@
 package com.rohitjakhar.hashpass.presention.signup
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rohitjakhar.hashpass.data.remote.LoginRepo
@@ -19,9 +20,17 @@ class SignUpVM @Inject constructor(
     var signUpUser: MutableStateFlow<Resource<Unit>> = MutableStateFlow(Resource.Loading())
         private set
 
-    fun signUpUser(email: String, password: String, name: String) {
+    var uploadImageUrl: MutableStateFlow<Resource<String>> = MutableStateFlow(Resource.Loading())
+        private set
+
+    fun signUpUser(email: String, password: String, name: String, profilePhoto: String) {
         viewModelScope.launch(IO) {
-            loginRepo.registerUser(email = email, password = password, username = name)
+            loginRepo.registerUser(
+                email = email,
+                password = password,
+                username = name,
+                profilePhoto = profilePhoto
+            )
                 .collectLatest { resource ->
                     signUpUser.emit(Resource.Loading())
                     signUpUser.emit(resource)
@@ -32,6 +41,12 @@ class SignUpVM @Inject constructor(
     fun loginWithGoogle(idToken: String) {
         viewModelScope.launch(IO) {
             loginRepo.loginWithGoogle(idToken)
+        }
+    }
+
+    fun uploadImage(uri: Uri) {
+        viewModelScope.launch(IO) {
+            uploadImageUrl.emit(loginRepo.uploadPhoto(uri))
         }
     }
 }
