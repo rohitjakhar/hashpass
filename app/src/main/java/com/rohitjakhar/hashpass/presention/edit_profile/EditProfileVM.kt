@@ -1,5 +1,6 @@
 package com.rohitjakhar.hashpass.presention.edit_profile
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rohitjakhar.hashpass.data.model.UserDetailsModel
@@ -15,6 +16,9 @@ import javax.inject.Inject
 class EditProfileVM @Inject constructor(
     private val loginRepo: LoginRepo
 ) : ViewModel() {
+
+    var uploadImageUrl: MutableStateFlow<Resource<String>> = MutableStateFlow(Resource.Loading())
+        private set
     var userDetailsState = MutableStateFlow<UserDetailsModel?>(null)
         private set
     var updateState = MutableStateFlow<Resource<Unit>>(Resource.Loading())
@@ -31,5 +35,9 @@ class EditProfileVM @Inject constructor(
             updateState.emit(Resource.Loading())
             updateState.emit(loginRepo.updateUser(userDetailsModel))
         }
+    }
+
+    fun uploadImage(photoUri: Uri) {
+        TODO("Not yet implemented")
     }
 }
