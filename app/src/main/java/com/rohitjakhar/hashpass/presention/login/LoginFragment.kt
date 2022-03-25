@@ -98,7 +98,19 @@ class LoginFragment : Fragment() {
     }
 
     private fun invalidate(): Boolean {
-        return false
+        binding.apply {
+            return when {
+                inputLayoutEmail.editText == null || inputLayoutEmail.editText!!.length() < 1 -> {
+                    inputLayoutEmail.error = "Enter Email!"
+                    false
+                }
+                inputLayoutPassword.editText == null || inputLayoutPassword.editText!!.length() < 1 -> {
+                    inputLayoutPassword.error = "Enter Password!"
+                    false
+                }
+                else -> true
+            }
+        }
     }
 
     private fun loginUser(email: String, password: String) {
