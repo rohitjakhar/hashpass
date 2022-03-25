@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".presention.login.LoginFragment">
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/iv_login_vector"
+            android:id="@+id/iv_sign_up_vector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -20,13 +20,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_label_login"
+            android:id="@+id/tv_label_sign_up"
             style="@style/BodyTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_up"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_login_vector" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_sign_up_vector" />
 
         <ImageView
             android:id="@+id/iv_upload_photo"
@@ -34,7 +34,7 @@
             android:layout_height="200dp"
             android:src="@drawable/ic_user"
             android:contentDescription="@string/user_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_label_login"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_sign_up"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             />

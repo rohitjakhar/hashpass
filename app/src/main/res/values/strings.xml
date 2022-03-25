@@ -42,4 +42,5 @@
     <string name="sign_out">Sign Out</string>
     <string name="delete_account">Delete Account</string>
     <string name="update_profile">Update Profile</string>
+    <string name="edit_profile">Edit Profile</string>
 </resources>
