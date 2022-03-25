@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -38,4 +39,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideFirebaseAuth() = Firebase.auth
+
+    @Provides
+    @Singleton
+    fun provideFirebaseStorage() = Firebase.storage
 }

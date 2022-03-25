@@ -5,7 +5,7 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.coroutines.await
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.rohitjakhar.hashpass.DeleteUserMutation
 import com.rohitjakhar.hashpass.GetUserDetailsQuery
@@ -28,7 +28,8 @@ import javax.inject.Inject
 class LoginRepo @Inject constructor(
     private val firebaseAuth: FirebaseAuth,
     private val dataStorePref: PreferenceDataImpl,
-    private val apolloClient: ApolloClient
+    private val apolloClient: ApolloClient,
+    private val firebaseStorage: FirebaseStorage
 ) {
     suspend fun loginUser(email: String, password: String) =
         flow<Resource<Unit>> {
@@ -198,7 +199,7 @@ class LoginRepo @Inject constructor(
     suspend fun uploadPhoto(uri: Uri): Resource<String> {
         return try {
             val task =
-                Firebase.storage.reference.child(UUID.randomUUID().toString()).putFile(uri).await()
+                firebaseStorage.reference.child(UUID.randomUUID().toString()).putFile(uri).await()
             Resource.Sucess(data = task.storage.downloadUrl.await().toString())
         } catch (e: Exception) {
             Resource.Error(message = e.localizedMessage ?: "Unknown Error")
