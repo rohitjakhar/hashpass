@@ -116,11 +116,13 @@ class SignUpFragment : Fragment() {
 
     private fun initClick() = binding.apply {
         btnSignUp.setOnClickListener {
-            signUp(
-                inputLayoutEmail.editText!!.text.toString(),
-                inputLayoutPassword.editText!!.text.toString(),
-                inputLayoutName.editText!!.text.toString()
-            )
+            if (invalidate()) {
+                signUp(
+                    inputLayoutEmail.editText!!.text.toString(),
+                    inputLayoutPassword.editText!!.text.toString(),
+                    inputLayoutName.editText!!.text.toString()
+                )
+            }
         }
         btnGoogleLogin.setOnClickListener {
             val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -141,6 +143,26 @@ class SignUpFragment : Fragment() {
                 action = Intent.ACTION_GET_CONTENT
             }
             getUserPhoto.launch(imageIntent)
+        }
+    }
+
+    private fun invalidate(): Boolean {
+        binding.apply {
+            return when {
+                inputLayoutEmail.editText == null || inputLayoutEmail.editText!!.length() < 1 -> {
+                    inputLayoutEmail.error = "Enter Email!"
+                    false
+                }
+                inputLayoutName.editText == null || inputLayoutName.editText!!.length() < 1 -> {
+                    inputLayoutName.error = "Enter Email!"
+                    false
+                }
+                inputLayoutPassword.editText == null || inputLayoutPassword.editText!!.length() < 1 -> {
+                    inputLayoutPassword.error = "Enter Email!"
+                    false
+                }
+                else -> true
+            }
         }
     }
 
