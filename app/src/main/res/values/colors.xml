@@ -7,4 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="deep_cove">#FF07074D</color>
+    <color name="deep_cove_light">#181884</color>
+
+    <color name="east_side">#B58DD4</color>
+    <color name="macaroni">#FFCC73</color>
+    <color name="blue_chalk">#F6EAFF</color>
+    <color name="cod_gray">#1D1D1D</color>
 </resources>
