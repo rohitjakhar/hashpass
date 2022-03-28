@@ -6,12 +6,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".presention.home.HomeFragment">
 
-    <com.iammert.library.ui.multisearchviewlib.MultiSearchView
+
+    <com.aghiadodeh.xsearchview.SearchView
         android:id="@+id/search_view_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:searchTextStyle="@style/SearchTextStyle"
+        app:search_view_debounce_duration="300"
+        app:search_view_opened="true"
+        app:search_view_icons_color="@color/black"
+        app:search_view_input_color="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId "com.rohitjakhar.hashpass"
-        minSdk 21
+        minSdk 23
         targetSdk 32
         versionCode 1
         versionName "0.1"
@@ -63,7 +63,6 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.play:core-ktx:1.8.1'
 
     // Testing
@@ -108,5 +107,6 @@ dependencies {
     // Coroutines extensions for easier asynchronicity handling
     implementation("com.apollographql.apollo:apollo-coroutines-support:$apolloVersion")
     implementation 'com.github.amoskorir:avatarimagegenerator:1.5.0'
-    implementation 'com.github.iammert:MultiSearchView:0.3'
+
+    implementation 'com.github.aghiadodeh:xsearchview:1.0.3'
 }
