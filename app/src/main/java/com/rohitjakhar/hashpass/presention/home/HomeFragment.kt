@@ -51,7 +51,16 @@ class HomeFragment : Fragment() {
         collectData()
     }
 
-    private fun handleSearch() {
+    private fun handleSearch() = binding.apply {
+        searchViewPassword.setOnApplySearchListener {
+            Log.d("test", "clicked: $it")
+        }
+        searchViewPassword.setOnSearchListener {
+            Log.d("test", "change text: $it")
+        }
+        searchViewPassword.initToggleListener {
+            Log.d("test", "is open: $it")
+        }
     }
 
     private fun initPasswordRV() {
