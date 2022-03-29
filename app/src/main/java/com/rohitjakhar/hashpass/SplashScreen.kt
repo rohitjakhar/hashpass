@@ -30,6 +30,8 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         checkUpdate()
         setContentView(R.layout.activity_splash_screen)
+        actionBar?.hide()
+        supportActionBar?.hide()
     }
 
     private fun checkUpdate() {

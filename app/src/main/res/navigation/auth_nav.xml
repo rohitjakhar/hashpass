@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.rohitjakhar.hashpass.presention.login.LoginFragment"
-        android:label="LoginFragment">
+        android:label="@string/login">
         <action
             android:id="@+id/action_loginFragment_to_forgetPasswordFragment"
             app:destination="@id/forgetPasswordFragment" />
@@ -20,10 +20,10 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.rohitjakhar.hashpass.presention.signup.SignUpFragment"
-        android:label="SignUpFragment" />
+        android:label="@string/sign_up" />
     <fragment
         android:id="@+id/forgetPasswordFragment"
         android:name="com.rohitjakhar.hashpass.presention.forget_password.ForgetPasswordFragment"
-        android:label="fragment_forget_password"
+        android:label="@string/forget_password"
         tools:layout="@layout/fragment_forget_password" />
 </navigation>

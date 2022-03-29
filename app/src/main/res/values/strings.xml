@@ -43,4 +43,8 @@
     <string name="delete_account">Delete Account</string>
     <string name="update_profile">Update Profile</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="forget_npassword">Forget \nPassword</string>
+    <string name="enter_your_account_email_to_receive_reset_password_email">Enter your account email to receive reset password email</string>
+    <string name="create_naccount">Create \nAccount</string>
+    <string name="login_to_nhashpass">Login to \nHashPass</string>
 </resources>

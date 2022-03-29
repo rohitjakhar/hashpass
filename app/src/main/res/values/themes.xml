@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/cod_gray</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/east_side</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/east_side_light</item>
         <!-- Customize your theme here. -->
 
         <item name="fontFamily">@font/source_code_pro_medium</item>

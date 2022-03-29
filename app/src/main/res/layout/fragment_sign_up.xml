@@ -12,13 +12,38 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/iv_background_sign_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_background_2"
+            android:contentDescription="@string/sign_up"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/label_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_naccount"
+            style="@style/BodyTextStyle"
+            android:textSize="36sp"
+            android:textColor="@color/white"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_background_sign_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <ImageView
             android:id="@+id/iv_upload_photo"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:src="@drawable/ic_user"
             android:contentDescription="@string/user_name"
-            android:layout_marginTop="48dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/iv_background_sign_1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             />
@@ -116,8 +141,25 @@
             app:backgroundTint="@color/white"
             app:cornerRadius="12dp"
             app:elevation="8dp"
+            app:strokeColor="@color/macaroni"
+            app:strokeWidth="1dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_label_or" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_or"
+            app:layout_constraintBottom_toTopOf="@+id/iv_background_sign_2"
+            />
+
+        <ImageView
+            android:id="@+id/iv_background_sign_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_background_1"
+            android:contentDescription="@string/sign_up"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

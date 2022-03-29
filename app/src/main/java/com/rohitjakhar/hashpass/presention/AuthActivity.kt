@@ -16,6 +16,8 @@ class AuthActivity : AppCompatActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        actionBar?.hide()
+        supportActionBar?.hide()
         val fragmentManager: NavHostFragment =
             supportFragmentManager.findFragmentById(R.id.auth_container) as NavHostFragment
         val navController = fragmentManager.navController

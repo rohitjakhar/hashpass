@@ -13,15 +13,28 @@
 
         <ImageView
             android:id="@+id/iv_login_vector"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/hashpass_logo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_background_2"
             android:contentDescription="@string/login"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/login_label_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_to_nhashpass"
+            style="@style/BodyTextStyle"
+            android:textSize="36sp"
+            android:textColor="@color/white"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_login_vector"
+            />
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_layout_email"
             style="@style/InputStyle"
@@ -78,7 +91,7 @@
             android:text="@string/login"
             android:textAllCaps="false"
             app:cornerRadius="12dp"
-            app:elevation="8dp"
+            app:elevation="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_forget_password" />
@@ -105,6 +118,8 @@
             android:textColor="@color/black"
             app:backgroundTint="@color/white"
             app:cornerRadius="12dp"
+            app:strokeColor="@color/macaroni"
+            app:strokeWidth="1dp"
             app:elevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -118,5 +133,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_google_login" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_background_1"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/login"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
