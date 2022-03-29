@@ -15,4 +15,5 @@
     <color name="macaroni">#FFCC73</color>
     <color name="blue_chalk">#F6EAFF</color>
     <color name="cod_gray">#1D1D1D</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#B58DD4</color>
 </resources>

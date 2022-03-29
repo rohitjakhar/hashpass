@@ -32,6 +32,7 @@
         <item name="boxCornerRadiusBottomStart">12dp</item>
         <item name="boxCornerRadiusTopEnd">12dp</item>
         <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxStrokeColor">@color/east_side</item>
     </style>
 
 </resources>
