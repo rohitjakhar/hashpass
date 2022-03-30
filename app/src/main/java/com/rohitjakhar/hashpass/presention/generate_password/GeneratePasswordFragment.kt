@@ -1,14 +1,17 @@
 package com.rohitjakhar.hashpass.presention.generate_password
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.rohitjakhar.hashpass.R
 import com.rohitjakhar.hashpass.databinding.FragmentGeneratePasswordBinding
+import com.rohitjakhar.hashpass.utils.PasswordStrength
 import com.rohitjakhar.hashpass.utils.copyText
 import com.rohitjakhar.hashpass.utils.loadingView
 import com.rohitjakhar.hashpass.utils.toast
@@ -35,13 +38,20 @@ class GeneratePasswordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         collectFirstTime()
         initClick()
+        passwordStrengthCollect()
+    }
+
+    private fun passwordStrengthCollect() {
+        binding.inputPasswordCreated.editText?.addTextChangedListener {
+            updatePasswordStrengthView(it.toString())
+        }
     }
 
     private fun collectFirstTime() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isFirstTimePassword.collectLatest {
                 if (it) {
-                    binding.btnRefreshPassword.text = "Create Password"
+                    binding.btnRefreshPassword.text = resources.getString(R.string.create_password)
                 } else {
                     binding.btnRefreshPassword.text = resources.getString(R.string.refresh_password)
                 }
@@ -58,10 +68,10 @@ class GeneratePasswordFragment : Fragment() {
                     inputPasswordLength.editText!!.text.toString().toIntOrNull() ?: 0
                 val password = viewModel.generatePassword(
                     length = passwordLength,
-                    includeNumbers = switchDigit.isChecked,
-                    includeSymbols = switchSymbol.isChecked,
-                    includeLowerCaseLetters = switchLowerLetter.isChecked,
-                    includeUpperCaseLetters = switchUpperLetter.isChecked
+                    includeNumbers = switchDigit.isOn,
+                    includeSymbols = switchSymbol.isOn,
+                    includeLowerCaseLetters = switchLowerLetter.isOn,
+                    includeUpperCaseLetters = switchUpperLetter.isOn
                 )
                 inputPasswordCreated.editText!!.setText(password)
                 loadingView.hide()
@@ -85,6 +95,32 @@ class GeneratePasswordFragment : Fragment() {
 
     private fun validation(): Boolean {
         return true
+    }
+
+    private fun updatePasswordStrengthView(password: String) {
+        if (TextUtils.isEmpty(password)) {
+            binding.pbPasswordStrength.progress = 0
+            return
+        }
+        val str = PasswordStrength.calculateStrength(password)
+        binding.pbPasswordStrength.progressDrawable.setColorFilter(
+            str.color,
+            android.graphics.PorterDuff.Mode.SRC_IN
+        )
+        when {
+            str.getText(requireContext()) == "Weak" -> {
+                binding.pbPasswordStrength.progress = 25
+            }
+            str.getText(requireContext()) == "Medium" -> {
+                binding.pbPasswordStrength.progress = 50
+            }
+            str.getText(requireContext()) == "Strong" -> {
+                binding.pbPasswordStrength.progress = 75
+            }
+            else -> {
+                binding.pbPasswordStrength.progress = 100
+            }
+        }
     }
 
     override fun onDestroy() {

@@ -1,20 +1,22 @@
 package com.rohitjakhar.hashpass.presention.add_password
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.databinding.FragmentAddPasswordBinding
+import com.rohitjakhar.hashpass.utils.PasswordStrength
 import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.getText
 import com.rohitjakhar.hashpass.utils.loadingView
 import com.rohitjakhar.hashpass.utils.messageDialog
-import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import java.util.*
@@ -37,7 +39,14 @@ class AddPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        watchPasswordStrength()
         initClick()
+    }
+
+    private fun watchPasswordStrength() {
+        binding.inputPassword.editText?.addTextChangedListener { textt ->
+            updatePasswordStrengthView(textt.toString())
+        }
     }
 
     private fun initClick() = binding.apply {
@@ -108,6 +117,32 @@ class AddPasswordFragment : Fragment() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun updatePasswordStrengthView(password: String) {
+        if (TextUtils.isEmpty(password)) {
+            binding.pbPasswordStrength.progress = 0
+            return
+        }
+        val str = PasswordStrength.calculateStrength(password)
+        binding.pbPasswordStrength.progressDrawable.setColorFilter(
+            str.color,
+            android.graphics.PorterDuff.Mode.SRC_IN
+        )
+        when {
+            str.getText(requireContext()) == "Weak" -> {
+                binding.pbPasswordStrength.progress = 25
+            }
+            str.getText(requireContext()) == "Medium" -> {
+                binding.pbPasswordStrength.progress = 50
+            }
+            str.getText(requireContext()) == "Strong" -> {
+                binding.pbPasswordStrength.progress = 75
+            }
+            else -> {
+                binding.pbPasswordStrength.progress = 100
             }
         }
     }
