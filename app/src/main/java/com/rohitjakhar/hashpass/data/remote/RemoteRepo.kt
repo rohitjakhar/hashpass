@@ -10,6 +10,7 @@ import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
 import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
+import com.rohitjakhar.hashpass.utils.decrypt
 import com.rohitjakhar.hashpass.utils.encrypt
 import com.rohitjakhar.hashpass.utils.getUserId
 import com.rohitjakhar.hashpass.utils.toInputAny
@@ -41,7 +42,9 @@ class RemoteRepo @Inject constructor(
                         passwordList.add(
                             PasswordModel(
                                 email = it.email(),
-                                passwordHash = it.password().toString(),
+                                passwordHash = it.password().decrypt(
+                                    "hashpass"
+                                ),
                                 description = it.descriptions(),
                                 userName = it.username(),
                                 url = it.url() ?: "",
@@ -72,7 +75,10 @@ class RemoteRepo @Inject constructor(
                     passwordModel.createdAt.toInputAny(),
                     passwordModel.description.toInputString(),
                     passwordModel.email.toInputString(),
-                    passwordModel.passwordHash.toInputString(),
+                    passwordModel.passwordHash.encrypt(
+                        password = "hashpass"
+                    )
+                        .toInputString(),
                     passwordModel.remarks.toInputString(),
                     passwordModel.securityQuestion.toInputString(),
                     passwordModel.securityAnswer.toInputString(),

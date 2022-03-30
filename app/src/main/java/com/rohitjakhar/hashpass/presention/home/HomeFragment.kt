@@ -79,6 +79,7 @@ class HomeFragment : Fragment() {
                         when (it.errorType) {
                             ErrorType.UNKNOWN -> {
                                 toast("Unknown Error")
+                                Log.d("test","error: ${it.message}")
                             }
                             ErrorType.EMPTY_DATA -> {
                                 toast("Empty List")

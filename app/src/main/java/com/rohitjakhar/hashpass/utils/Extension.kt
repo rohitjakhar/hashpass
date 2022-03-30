@@ -19,7 +19,9 @@ import com.rohitjakhar.hashpass.data.model.UserDetailsModel
 import com.rohitjakhar.hashpass.databinding.DialogLoadingViewBinding
 import kotlinx.coroutines.flow.first
 import javax.crypto.Cipher
+import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
 fun Fragment.toast(message: String) {
@@ -55,7 +57,22 @@ fun View.hide() {
 }
 
 fun String.encrypt(password: String): String {
-    val secretKeySpec = SecretKeySpec(password.toByteArray(), "AES")
+
+    val pswdIterations = 65536
+    val keySize = 256
+    val saltBytes = byteArrayOf(0, 1, 2, 3, 4, 5, 6)
+
+    val factory: SecretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+
+    val spec: PBEKeySpec = PBEKeySpec(
+        password.toCharArray(),
+        saltBytes,
+        pswdIterations,
+        keySize
+    )
+
+    val secretKey = factory.generateSecret(spec)
+    val secretKeySpec = SecretKeySpec(secretKey.encoded, "AES")
     val iv = ByteArray(16)
     val charArray = password.toCharArray()
     for (i in charArray.indices) {
@@ -71,7 +88,21 @@ fun String.encrypt(password: String): String {
 }
 
 fun String.decrypt(password: String): String {
-    val secretKeySpec = SecretKeySpec(password.toByteArray(), "AES")
+    val pswdIterations = 65536
+    val keySize = 256
+    val saltBytes = byteArrayOf(0, 1, 2, 3, 4, 5, 6)
+
+    val factory: SecretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+
+    val spec: PBEKeySpec = PBEKeySpec(
+        password.toCharArray(),
+        saltBytes,
+        pswdIterations,
+        keySize
+    )
+
+    val secretKey = factory.generateSecret(spec)
+    val secretKeySpec = SecretKeySpec(secretKey.encoded, "AES")
     val iv = ByteArray(16)
     val charArray = password.toCharArray()
     for (i in charArray.indices) {
