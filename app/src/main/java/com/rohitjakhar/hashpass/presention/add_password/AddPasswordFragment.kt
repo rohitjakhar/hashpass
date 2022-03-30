@@ -1,18 +1,19 @@
 package com.rohitjakhar.hashpass.presention.add_password
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.databinding.FragmentAddPasswordBinding
 import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.getText
 import com.rohitjakhar.hashpass.utils.loadingView
+import com.rohitjakhar.hashpass.utils.messageDialog
 import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -36,18 +37,7 @@ class AddPasswordFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
         initClick()
-    }
-
-    private fun initView() = binding.apply {
-        collectCategory()
-    }
-
-    private fun collectCategory() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.addPasswordStatus
-        }
     }
 
     private fun initClick() = binding.apply {
@@ -106,13 +96,16 @@ class AddPasswordFragment : Fragment() {
                 when (it) {
                     is Resource.Error -> {
                         loadingView.dismiss()
-                        toast(it.message)
                     }
                     is Resource.Loading -> {
                         loadingView.show()
                     }
                     is Resource.Sucess -> {
                         loadingView.dismiss()
+                        requireContext().messageDialog("Password Added Successfully!") {
+                            it.dismiss()
+                            findNavController().navigateUp()
+                        }
                     }
                 }
             }

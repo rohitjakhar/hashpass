@@ -3,6 +3,8 @@ package com.rohitjakhar.hashpass.utils
 import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Build
 import android.util.Base64
 import android.util.Base64.decode
@@ -146,4 +148,14 @@ suspend fun PreferenceDataImpl.getUserDetails(): UserDetailsModel {
 
 fun TextInputLayout.getText(): String {
     return this.editText?.text.toString()
+}
+
+fun Context.messageDialog(message: String, okClick: (DialogInterface) -> Unit): AlertDialog {
+    return MaterialAlertDialogBuilder(this)
+        .setTitle(message)
+        .setPositiveButton("Ok") { dialogInterface, _ ->
+            okClick.invoke(dialogInterface)
+        }
+        .setCancelable(false)
+        .create()
 }
