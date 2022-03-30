@@ -77,7 +77,7 @@ class SettingFragment : Fragment() {
     private fun collectNotification() = binding.apply {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.notificationState.collectLatest {
-                switchNotification.isChecked = it
+                switchNotification.isOn = it
             }
         }
     }
@@ -89,8 +89,8 @@ class SettingFragment : Fragment() {
         }
         cvDeleteAccount.setOnClickListener {
         }
-        switchNotification.setOnCheckedChangeListener { compoundButton, isChecked ->
-            viewModel.changeNotification(isChecked)
+        switchNotification.setOnToggledListener { toggleableView, isOn ->
+            viewModel.changeNotification(isOn)
         }
         cvUpdateProfile.setOnClickListener {
             findNavController().navigate(SettingFragmentDirections.actionNavSettingToEditProfileFragment())

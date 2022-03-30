@@ -118,7 +118,7 @@ class GeneratePasswordFragment : Fragment() {
             return
         }
         val str = PasswordStrength.calculateStrength(password)
-        binding.pbPasswordStrength.progressDrawable.setColorFilter(
+        binding.pbPasswordStrength.progressDrawable?.setColorFilter(
             str.color,
             android.graphics.PorterDuff.Mode.SRC_IN
         )

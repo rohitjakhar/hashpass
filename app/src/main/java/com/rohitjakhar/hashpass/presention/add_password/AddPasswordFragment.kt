@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.databinding.FragmentAddPasswordBinding
 import com.rohitjakhar.hashpass.utils.PasswordStrength
@@ -17,6 +18,7 @@ import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.getText
 import com.rohitjakhar.hashpass.utils.loadingView
 import com.rohitjakhar.hashpass.utils.messageDialog
+import com.rohitjakhar.hashpass.utils.setText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import java.util.*
@@ -27,6 +29,7 @@ class AddPasswordFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<AddPasswordVM>()
     private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
+    private val navArgs: AddPasswordFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +43,22 @@ class AddPasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         watchPasswordStrength()
+        initView()
         initClick()
+    }
+
+    private fun initView() = binding.apply {
+        navArgs.passwordDetails?.let {
+            inputPassword.setText(it.passwordHash)
+            inputDescription.setText(it.description)
+            inputEmail.setText(it.email)
+            inputRemarks.setText(it.remarks)
+            inputSecurityAnswer.setText(it.securityAnswer)
+            inputSecurityQuesetion.setText(it.securityQuestion)
+            inputTitle.setText(it.title)
+            inputUrl.setText(it.url)
+            inputUserName.setText(it.userName)
+        }
     }
 
     private fun watchPasswordStrength() {

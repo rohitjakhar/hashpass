@@ -159,3 +159,7 @@ fun Context.messageDialog(message: String, okClick: (DialogInterface) -> Unit): 
         .setCancelable(false)
         .create()
 }
+
+fun TextInputLayout.setText(text: String?) {
+    this.editText?.setText(text)
+}
