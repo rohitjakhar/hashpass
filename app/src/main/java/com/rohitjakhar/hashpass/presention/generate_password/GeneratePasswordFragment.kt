@@ -13,6 +13,7 @@ import com.rohitjakhar.hashpass.R
 import com.rohitjakhar.hashpass.databinding.FragmentGeneratePasswordBinding
 import com.rohitjakhar.hashpass.utils.PasswordStrength
 import com.rohitjakhar.hashpass.utils.copyText
+import com.rohitjakhar.hashpass.utils.getText
 import com.rohitjakhar.hashpass.utils.loadingView
 import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -94,7 +95,21 @@ class GeneratePasswordFragment : Fragment() {
     }
 
     private fun validation(): Boolean {
-        return true
+        binding.apply {
+            return when {
+                !switchDigit.isOn && !switchLowerLetter.isOn && !switchSymbol.isOn && !switchUpperLetter.isOn -> {
+                    toast("Please check one option")
+                    false
+                }
+                inputPasswordLength.editText == null || inputPasswordLength.editText!!.text.toString() == "0" -> {
+                    inputPasswordLength.error = "Please Write Password Length"
+                    false
+                }
+                else -> {
+                    true
+                }
+            }
+        }
     }
 
     private fun updatePasswordStrengthView(password: String) {
