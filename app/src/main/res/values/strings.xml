@@ -47,4 +47,6 @@
     <string name="enter_your_account_email_to_receive_reset_password_email">Enter your account email to receive reset password email</string>
     <string name="create_naccount">Create \nAccount</string>
     <string name="login_to_nhashpass">Login to \nHashPass</string>
+    <string name="try_again">Try Again</string>
+    <string name="some_error_occurs_ntry_again">Some Error Occurs.\nTry Again</string>
 </resources>

@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.rohitjakhar.hashpass.databinding.FragmentHomeBinding
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
+import com.rohitjakhar.hashpass.utils.hide
 import com.rohitjakhar.hashpass.utils.loadingView
+import com.rohitjakhar.hashpass.utils.show
 import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -49,6 +51,14 @@ class HomeFragment : Fragment() {
         handleSearch()
         initPasswordRV()
         collectData()
+        initClick()
+    }
+
+    private fun initClick() = binding.apply {
+        btnTryAgain.setOnClickListener {
+            viewModel.getPasswordList()
+            collectData()
+        }
     }
 
     private fun handleSearch() = binding.apply {
@@ -75,11 +85,13 @@ class HomeFragment : Fragment() {
             viewModel.passwordListState.collectLatest {
                 when (it) {
                     is Resource.Error -> {
+                        binding.tvErrorMessage.show()
+                        binding.btnTryAgain.show()
+                        binding.rvPassword.hide()
                         loadingView.dismiss()
                         when (it.errorType) {
                             ErrorType.UNKNOWN -> {
                                 toast("Unknown Error")
-                                Log.d("test","error: ${it.message}")
                             }
                             ErrorType.EMPTY_DATA -> {
                                 toast("Empty List")
@@ -87,9 +99,15 @@ class HomeFragment : Fragment() {
                         }
                     }
                     is Resource.Loading -> {
+                        binding.tvErrorMessage.hide()
+                        binding.btnTryAgain.hide()
+                        binding.rvPassword.show()
                         loadingView.show()
                     }
                     is Resource.Sucess -> {
+                        binding.tvErrorMessage.hide()
+                        binding.btnTryAgain.hide()
+                        binding.rvPassword.show()
                         loadingView.dismiss()
                         passwordAdapter.submitList(it.data)
                     }

@@ -133,6 +133,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
+            style="@style/FirebaseUI.Button.AccountChooser.GoogleButton"
+            android:gravity="center"
             android:layout_marginTop="8dp"
             android:paddingVertical="12dp"
             android:text="@string/continue_with_google"

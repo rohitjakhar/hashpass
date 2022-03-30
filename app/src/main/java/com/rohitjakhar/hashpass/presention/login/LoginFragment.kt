@@ -128,7 +128,6 @@ class LoginFragment : Fragment() {
                     }
                     is Resource.Loading -> {
                         loadingView.show()
-                        toast("Loading")
                     }
                     is Resource.Sucess -> {
                         loadingView.dismiss()
