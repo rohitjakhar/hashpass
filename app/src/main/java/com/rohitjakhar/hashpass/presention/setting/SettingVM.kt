@@ -30,8 +30,17 @@ class SettingVM @Inject constructor(
 
     fun logout() {
         viewModelScope.launch(IO) {
-            logoutState.emit(Resource.Loading())
             loginRepo.logoutUser().collectLatest {
+                logoutState.emit(Resource.Loading())
+                logoutState.emit(it)
+            }
+        }
+    }
+
+    fun deleteAccount() {
+        viewModelScope.launch(IO) {
+            logoutState.emit(Resource.Loading())
+            loginRepo.deleteUserAccount().collectLatest {
                 logoutState.emit(it)
             }
         }

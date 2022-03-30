@@ -6,7 +6,6 @@ import com.apollographql.apollo.coroutines.await
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 import com.rohitjakhar.hashpass.DeleteUserMutation
 import com.rohitjakhar.hashpass.GetUserDetailsQuery
 import com.rohitjakhar.hashpass.InsertUserDetailsMutation
@@ -16,6 +15,7 @@ import com.rohitjakhar.hashpass.data.model.UserDetailsModel
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.getUserDetails
+import com.rohitjakhar.hashpass.utils.getUserId
 import com.rohitjakhar.hashpass.utils.toInputString
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
@@ -234,11 +234,18 @@ class LoginRepo @Inject constructor(
         return dataStorePref.getUserDetails()
     }
 
-    suspend fun deleteUserAccount(userId: String) {
+    suspend fun deleteUserAccount() = flow<Resource<Boolean>> {
         try {
             firebaseAuth.currentUser!!.delete().await()
-            val task = apolloClient.mutate(DeleteUserMutation(userId.toInputString())).await()
+            val task =
+                apolloClient.mutate(DeleteUserMutation(dataStorePref.getUserId().toInputString()))
+                    .await()
+            if (task.hasErrors()) {
+                emit(Resource.Error(message = task.errors?.first()?.message ?: "Unknown Error"))
+            }
+            emit(Resource.Sucess(true))
         } catch (e: Exception) {
+            emit(Resource.Error(message = e.localizedMessage ?: "Unknown Error"))
         }
     }
 }

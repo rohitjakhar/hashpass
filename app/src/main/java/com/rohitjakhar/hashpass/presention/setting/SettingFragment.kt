@@ -16,6 +16,7 @@ import com.rohitjakhar.hashpass.databinding.FragmentSettingBinding
 import com.rohitjakhar.hashpass.presention.AuthActivity
 import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.loadingView
+import com.rohitjakhar.hashpass.utils.optionDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -84,10 +85,22 @@ class SettingFragment : Fragment() {
 
     private fun initClick() = binding.apply {
         cvSignOut.setOnClickListener {
-            collectLogoutState()
-            viewModel.logout()
+            requireContext().optionDialog("Are you want to logout!", { yesClick ->
+                yesClick.dismiss()
+                collectLogoutState()
+                viewModel.logout()
+            }, { noClick ->
+                noClick.dismiss()
+            })
         }
         cvDeleteAccount.setOnClickListener {
+            requireContext().optionDialog("Are you want to delete your account!", { yesClick ->
+                yesClick.dismiss()
+                collectLogoutState()
+                viewModel.deleteAccount()
+            }, { noClick ->
+                noClick.dismiss()
+            })
         }
         switchNotification.setOnToggledListener { toggleableView, isOn ->
             viewModel.changeNotification(isOn)

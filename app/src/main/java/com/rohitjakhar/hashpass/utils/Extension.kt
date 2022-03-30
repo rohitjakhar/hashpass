@@ -160,6 +160,23 @@ fun Context.messageDialog(message: String, okClick: (DialogInterface) -> Unit): 
         .create()
 }
 
+fun Context.optionDialog(
+    message: String,
+    yesClick: (DialogInterface) -> Unit,
+    noClick: (DialogInterface) -> Unit
+): AlertDialog {
+    return MaterialAlertDialogBuilder(this)
+        .setTitle(message)
+        .setPositiveButton("Yes") { dialogInterface, _ ->
+            yesClick.invoke(dialogInterface)
+        }
+        .setNegativeButton("No") { dialogInterface, _ ->
+            noClick.invoke(dialogInterface)
+        }
+        .setCancelable(true)
+        .create()
+}
+
 fun TextInputLayout.setText(text: String?) {
     this.editText?.setText(text)
 }
