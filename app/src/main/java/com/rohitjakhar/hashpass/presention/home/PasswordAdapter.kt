@@ -9,6 +9,7 @@ import coil.load
 import com.avatarfirst.avatargenlib.AvatarGenerator
 import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.databinding.ItemPasswordBinding
+import com.rohitjakhar.hashpass.utils.toDate
 import java.util.*
 
 class PasswordAdapter(private val onClick: (PasswordModel) -> Unit) :
@@ -33,6 +34,7 @@ class PasswordAdapter(private val onClick: (PasswordModel) -> Unit) :
         fun bind(data: PasswordModel) = binding.apply {
             tvTitle.text = data.title
             tvUserName.text = data.userName ?: data.email
+            tvCreatedDay.text = data.createdAt.toDate()
             ivLogo.load(
                 AvatarGenerator.AvatarBuilder(binding.root.context)
                     .setAvatarSize(200)
@@ -41,7 +43,6 @@ class PasswordAdapter(private val onClick: (PasswordModel) -> Unit) :
                     .setLabel(data.title.uppercase(Locale.getDefault()))
                     .build()
             )
-
             root.setOnClickListener {
                 onClick.invoke(data)
             }

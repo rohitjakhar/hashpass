@@ -11,7 +11,6 @@ import android.graphics.Shader
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.net.Uri
-import android.os.Build
 import android.util.Base64
 import android.util.Base64.decode
 import android.view.View
@@ -31,6 +30,8 @@ import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
 import com.rohitjakhar.hashpass.data.model.UserDetailsModel
 import com.rohitjakhar.hashpass.databinding.DialogLoadingViewBinding
 import kotlinx.coroutines.flow.first
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
@@ -243,4 +244,10 @@ fun String.toLink(): String {
         url = "http://$url"
     }
     return url
+}
+
+fun Long.toDate(): String {
+    val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    val netDate = Date(this)
+    return sdf.format(netDate)
 }
