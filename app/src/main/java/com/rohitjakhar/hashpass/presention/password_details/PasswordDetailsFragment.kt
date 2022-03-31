@@ -67,7 +67,7 @@ class PasswordDetailsFragment : Fragment() {
             if (securityQuestion != null && securityQuestion.isNotEmpty()) passwordBuilder.append("\nSecurity Question: $securityQuestion")
             if (securityAnswer != null && securityAnswer.isNotEmpty()) passwordBuilder.append("\nSecurity Answer: $securityAnswer")
             if (remarks != null && remarks.isNotEmpty()) passwordBuilder.append("\nRemarks: $remarks")
-            passwordBuilder.append("\nDownload HashPass for saving password at free!\nLink:- https://play.google.com/store/apps/details?id=com.rohit.hashpass")
+            passwordBuilder.append("\nDownload HashPass for saving password at free!\nLink:- https://play.google.com/store/apps/details?id=com.rohitjakhar.hashpass")
         }
         return passwordBuilder.toString()
     }

@@ -138,7 +138,7 @@ class SettingFragment : Fragment() {
                 action = Intent.ACTION_SEND
                 putExtra(
                     Intent.EXTRA_TEXT,
-                    "Download HashPass App for saving password : https://play.google.com/store/apps/details?id=com.rohit.hashpass"
+                    "Download HashPass App for saving password : https://play.google.com/store/apps/details?id=com.rohitjakhar.hashpass"
                 )
                 type = "text/plain"
             }
