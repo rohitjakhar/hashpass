@@ -56,4 +56,5 @@
     <string name="default_password_length">8</string>
     <string name="share">Share</string>
     <string name="edit_password">Edit Password</string>
+    <string name="fingerprint_lock">Fingerprint Lock</string>
 </resources>

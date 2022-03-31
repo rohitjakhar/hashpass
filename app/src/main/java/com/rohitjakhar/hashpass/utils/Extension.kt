@@ -6,18 +6,27 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.LinearGradient
+import android.graphics.Shader
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RectShape
 import android.net.Uri
 import android.os.Build
 import android.util.Base64
 import android.util.Base64.decode
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.apollographql.apollo.api.Input
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
+import com.rohitjakhar.hashpass.MainActivity
 import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
 import com.rohitjakhar.hashpass.data.model.UserDetailsModel
 import com.rohitjakhar.hashpass.databinding.DialogLoadingViewBinding
@@ -189,4 +198,42 @@ fun Activity.openInBrowser(link: String) {
             it.data = Uri.parse(link)
         }
     )
+}
+
+fun View.backgroundGradientDrawable(@ColorInt startColor: Int, @ColorInt endColor: Int) {
+    val h = this.height.toFloat()
+    val shapeDrawable = ShapeDrawable(RectShape())
+    shapeDrawable.paint.shader =
+        LinearGradient(0f, 0f, 0f, h, startColor, endColor, Shader.TileMode.REPEAT)
+    this.background = shapeDrawable
+}
+
+fun Activity.bioMetricsPrompts() {
+    val promptInfo = BiometricPrompt.PromptInfo.Builder()
+        .setTitle("Unlock")
+        .setSubtitle("Use Finger")
+        .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+        .build()
+
+    val biometricPrompt = BiometricPrompt(
+        this as FragmentActivity,
+        object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                super.onAuthenticationError(errorCode, errString)
+                Toast.makeText(this@bioMetricsPrompts, "$errString", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onAuthenticationFailed() {
+                super.onAuthenticationFailed()
+                finish()
+            }
+
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                super.onAuthenticationSucceeded(result)
+                startActivity(Intent(this@bioMetricsPrompts, MainActivity::class.java))
+                finish()
+            }
+        }
+    )
+    biometricPrompt.authenticate(promptInfo)
 }

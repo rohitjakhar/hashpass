@@ -42,6 +42,11 @@ class PreferenceDataImpl @Inject constructor(
             it[PREF_NOTIFICATION] ?: true
         }
 
+    override val isFingerLockOn: Flow<Boolean>
+        get() = dataStore.data.map {
+            it[PREF_FINGER_LOCK] ?: false
+        }
+
     override suspend fun updateNotification(isNotificationOn: Boolean) {
         dataStore.edit {
             it[PREF_NOTIFICATION] = isNotificationOn
@@ -78,6 +83,12 @@ class PreferenceDataImpl @Inject constructor(
         }
     }
 
+    override suspend fun changeFingerLock(isFingerEnable: Boolean) {
+        dataStore.edit {
+            it[PREF_FINGER_LOCK] = isFingerEnable
+        }
+    }
+
     companion object {
         private val PREF_IS_LOGIN = booleanPreferencesKey("isLogin")
         private val PREF_USER_NAME = stringPreferencesKey("user_name")
@@ -85,5 +96,6 @@ class PreferenceDataImpl @Inject constructor(
         private val PREF_USER_ID = stringPreferencesKey("user_id")
         private val PREF_USER_IMAGE = stringPreferencesKey("user_image")
         private val PREF_NOTIFICATION = booleanPreferencesKey("notification")
+        private val PREF_FINGER_LOCK = booleanPreferencesKey("finger_lock")
     }
 }

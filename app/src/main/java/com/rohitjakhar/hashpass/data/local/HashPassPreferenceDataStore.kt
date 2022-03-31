@@ -9,6 +9,7 @@ interface HashPassPreferenceDataStore {
     val userImage: Flow<String>
     val userId: Flow<String>
     val notificationOn: Flow<Boolean>
+    val isFingerLockOn: Flow<Boolean>
 
     suspend fun changeLogin(isLogin: Boolean)
     suspend fun updateName(userName: String)
@@ -16,4 +17,5 @@ interface HashPassPreferenceDataStore {
     suspend fun updateImage(imageLink: String)
     suspend fun updateId(userId: String)
     suspend fun updateNotification(isNotificationOn: Boolean)
+    suspend fun changeFingerLock(isFingerEnable: Boolean)
 }

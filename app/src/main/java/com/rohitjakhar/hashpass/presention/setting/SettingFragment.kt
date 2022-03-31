@@ -37,6 +37,7 @@ class SettingFragment : Fragment() {
         _binding = FragmentSettingBinding.inflate(inflater, container, false)
         viewModel.getNotification()
         viewModel.getUserDetails()
+        viewModel.checkFingerLock()
         return binding.root
     }
 
@@ -45,7 +46,16 @@ class SettingFragment : Fragment() {
         initView()
         initClick()
         collectNotification()
+        collectFingerLock()
         collectUserDetails()
+    }
+
+    private fun collectFingerLock() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.isFingerLock.collectLatest {
+                binding.switchBioMetricLock.isOn = it
+            }
+        }
     }
 
     private fun collectUserDetails() = binding.apply {
@@ -118,6 +128,11 @@ class SettingFragment : Fragment() {
         cvAbout.setOnClickListener {
             requireActivity().openInBrowser("https://rohitjakhar.me/")
         }
+
+        switchBioMetricLock.setOnToggledListener { _, isOn ->
+            viewModel.changeFingerLock(isOn)
+        }
+
         floatingShareApp.setOnClickListener {
             val sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND

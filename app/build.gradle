@@ -110,4 +110,5 @@ dependencies {
 
     implementation 'com.github.aghiadodeh:xsearchview:1.0.3'
     implementation 'com.github.angads25:toggle:1.1.0'
+    implementation ("androidx.biometric:biometric-ktx:1.2.0-alpha04")
 }

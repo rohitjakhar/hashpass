@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_share"
             android:layout_margin="16dp"
+            android:contentDescription="@string/share"
             app:backgroundTint="@color/east_side"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -93,6 +94,39 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:on="true"
+                    app:textOff=""
+                    app:textOn="" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="12dp"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tv_bio_metric_lock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fingerprint_lock"
+                    style="@style/NormalTextStyle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.github.angads25.toggle.widget.LabeledSwitch
+                    android:id="@+id/switch_bio_metric_lock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:elevation="4dp"
+                    android:textColor="@color/black"
+                    app:colorBorder="@color/east_side"
+                    app:colorOn="@color/east_side"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:on="false"
                     app:textOff=""
                     app:textOn="" />
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,6 +20,7 @@ import com.rohitjakhar.hashpass.utils.toInputString
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import java.util.*
@@ -247,5 +248,17 @@ class LoginRepo @Inject constructor(
         } catch (e: Exception) {
             emit(Resource.Error(message = e.localizedMessage ?: "Unknown Error"))
         }
+    }
+
+    suspend fun checkFingerLock() = flow<Boolean> {
+        try {
+            emit(dataStorePref.isFingerLockOn.first())
+        } catch (e: Exception) {
+            emit(false)
+        }
+    }
+
+    suspend fun changeFingerLock(isFingerLock: Boolean) {
+        dataStorePref.changeFingerLock(isFingerLock)
     }
 }

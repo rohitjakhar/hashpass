@@ -28,6 +28,23 @@ class SettingVM @Inject constructor(
     var userDetails = MutableStateFlow<UserDetailsModel?>(null)
         private set
 
+    var isFingerLock = MutableStateFlow<Boolean>(false)
+        private set
+
+    fun checkFingerLock() {
+        viewModelScope.launch(IO) {
+            loginRepo.checkFingerLock().collectLatest {
+                isFingerLock.emit(it)
+            }
+        }
+    }
+
+    fun changeFingerLock(isFingerLock: Boolean) {
+        viewModelScope.launch(IO) {
+            loginRepo.changeFingerLock(isFingerLock)
+        }
+    }
+
     fun logout() {
         viewModelScope.launch(IO) {
             loginRepo.logoutUser().collectLatest {

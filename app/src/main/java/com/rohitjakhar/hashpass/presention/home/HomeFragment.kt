@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.databinding.FragmentHomeBinding
 import com.rohitjakhar.hashpass.utils.ErrorType
 import com.rohitjakhar.hashpass.utils.Resource
@@ -26,6 +27,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<HomeVM>()
     private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
+    private val passwordModelList = mutableListOf<PasswordModel>()
     private val passwordAdapter by lazy {
         PasswordAdapter { passwordId ->
             findNavController().navigate(
@@ -65,11 +67,20 @@ class HomeFragment : Fragment() {
         searchViewPassword.setOnApplySearchListener {
             Log.d("test", "clicked: $it")
         }
-        searchViewPassword.setOnSearchListener {
-            Log.d("test", "change text: $it")
+        searchViewPassword.setOnSearchListener { changedText ->
+            passwordAdapter.submitList(
+                passwordModelList.filter { passwordModel ->
+                    passwordModel.title == changedText || passwordModel.email == changedText || passwordModel.description == changedText || passwordModel.userName == changedText
+                }
+            )
         }
         searchViewPassword.initToggleListener {
-            Log.d("test", "is open: $it")
+            if (it) {
+                Log.d("test", "true ")
+            } else {
+                passwordAdapter.submitList(passwordModelList)
+                Log.d("test", "false")
+            }
         }
     }
 
@@ -109,7 +120,8 @@ class HomeFragment : Fragment() {
                         binding.btnTryAgain.hide()
                         binding.rvPassword.show()
                         loadingView.dismiss()
-                        passwordAdapter.submitList(it.data)
+                        passwordModelList.addAll(it.data!!)
+                        passwordAdapter.submitList(passwordModelList)
                     }
                 }
             }
