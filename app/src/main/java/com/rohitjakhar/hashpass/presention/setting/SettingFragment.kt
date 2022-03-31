@@ -118,6 +118,18 @@ class SettingFragment : Fragment() {
         cvAbout.setOnClickListener {
             requireActivity().openInBrowser("https://rohitjakhar.me/")
         }
+        floatingShareApp.setOnClickListener {
+            val sendIntent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(
+                    Intent.EXTRA_TEXT,
+                    "Download HashPass App for saving password : https://play.google.com/store/apps/details?id=com.rohit.hashpass"
+                )
+                type = "text/plain"
+            }
+            val shareIntent = Intent.createChooser(sendIntent, "Share App")
+            requireContext().startActivity(shareIntent)
+        }
     }
 
     private fun collectLogoutState() {
