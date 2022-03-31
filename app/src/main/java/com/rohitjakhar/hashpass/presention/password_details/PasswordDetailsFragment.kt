@@ -155,7 +155,7 @@ class PasswordDetailsFragment : Fragment() {
                         requireContext().messageDialog("Password Successfully Deleted!") { dialogInterface ->
                             dialogInterface.dismiss()
                             findNavController().navigateUp()
-                        }
+                        }.show()
                     }
                 }
             }

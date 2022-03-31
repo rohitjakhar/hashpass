@@ -102,7 +102,7 @@ class SettingFragment : Fragment() {
                 viewModel.logout()
             }, { noClick ->
                 noClick.dismiss()
-            })
+            }).show()
         }
         cvDeleteAccount.setOnClickListener {
             requireContext().optionDialog("Are you want to delete your account!", { yesClick ->
@@ -111,7 +111,7 @@ class SettingFragment : Fragment() {
                 viewModel.deleteAccount()
             }, { noClick ->
                 noClick.dismiss()
-            })
+            }).show()
         }
         switchNotification.setOnToggledListener { toggleableView, isOn ->
             viewModel.changeNotification(isOn)

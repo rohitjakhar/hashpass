@@ -132,7 +132,7 @@ class AddPasswordFragment : Fragment() {
                         requireContext().messageDialog("Password Added Successfully!") {
                             it.dismiss()
                             findNavController().navigateUp()
-                        }
+                        }.show()
                     }
                 }
             }
