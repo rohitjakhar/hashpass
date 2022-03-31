@@ -25,7 +25,7 @@ import androidx.fragment.app.FragmentActivity
 import com.apollographql.apollo.api.Input
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
-import com.rohitjakhar.hashpass.MainActivity
+import com.rohitjakhar.hashpass.presention.MainActivity
 import com.rohitjakhar.hashpass.data.local.PreferenceDataImpl
 import com.rohitjakhar.hashpass.data.model.UserDetailsModel
 import com.rohitjakhar.hashpass.databinding.DialogLoadingViewBinding

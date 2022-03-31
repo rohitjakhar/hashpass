@@ -14,8 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.rohitjakhar.hashpass.MainActivity
-import com.rohitjakhar.hashpass.R
+import com.rohitjakhar.hashpass.presention.MainActivity
 import com.rohitjakhar.hashpass.databinding.FragmentLoginBinding
 import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.loadingView

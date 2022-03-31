@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HashLock">
         <activity
-            android:name=".SplashScreen"
+            android:name=".presention.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,7 @@
             android:name=".presention.AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".presention.MainActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="false"/>
 

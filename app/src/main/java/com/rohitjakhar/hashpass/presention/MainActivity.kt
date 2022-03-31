@@ -1,13 +1,13 @@
-package com.rohitjakhar.hashpass
+package com.rohitjakhar.hashpass.presention
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.rohitjakhar.hashpass.R
 import com.rohitjakhar.hashpass.databinding.ActivityMainBinding
 import com.rohitjakhar.hashpass.utils.hide
 import com.rohitjakhar.hashpass.utils.show
@@ -18,7 +18,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private val viewModel by viewModels<MainViewModel>()
     private val reviewManager by lazy { ReviewManagerFactory.create(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

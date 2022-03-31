@@ -20,8 +20,8 @@ android {
         applicationId "com.rohitjakhar.hashpass"
         minSdk 23
         targetSdk 32
-        versionCode 3
-        versionName "0.5"
+        versionCode 6
+        versionName "1.2"
 
         buildConfigField("String", "HASURA_KEY", properties.getProperty("hasurakey", ""))
         buildConfigField("String", "HASURA_URL", properties.getProperty("hasuraurl", ""))
