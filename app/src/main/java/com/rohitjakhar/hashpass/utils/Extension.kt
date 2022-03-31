@@ -5,6 +5,8 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.util.Base64
 import android.util.Base64.decode
@@ -179,4 +181,12 @@ fun Context.optionDialog(
 
 fun TextInputLayout.setText(text: String?) {
     this.editText?.setText(text)
+}
+
+fun Activity.openInBrowser(link: String) {
+    startActivity(
+        Intent(Intent.ACTION_VIEW).also {
+            it.data = Uri.parse(link)
+        }
+    )
 }

@@ -16,6 +16,7 @@ import com.rohitjakhar.hashpass.databinding.FragmentSettingBinding
 import com.rohitjakhar.hashpass.presention.AuthActivity
 import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.loadingView
+import com.rohitjakhar.hashpass.utils.openInBrowser
 import com.rohitjakhar.hashpass.utils.optionDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -107,6 +108,15 @@ class SettingFragment : Fragment() {
         }
         cvUpdateProfile.setOnClickListener {
             findNavController().navigate(SettingFragmentDirections.actionNavSettingToEditProfileFragment())
+        }
+        cvPrivacy.setOnClickListener {
+            requireActivity().openInBrowser("https://sites.google.com/view/hash-pass-privacy/")
+        }
+        cvAboutHasura.setOnClickListener {
+            requireActivity().openInBrowser("https://hasura.io/")
+        }
+        cvAbout.setOnClickListener {
+            requireActivity().openInBrowser("https://rohitjakhar.me/")
         }
     }
 
