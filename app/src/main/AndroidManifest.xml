@@ -14,8 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HashLock">
         <activity
+            android:name=".presention.on_boarding.OnBoardActivity"
+            android:exported="false" />
+        <activity
             android:name=".SplashScreen"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,8 +30,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
 
         <meta-data
             android:name="preloaded_fonts"

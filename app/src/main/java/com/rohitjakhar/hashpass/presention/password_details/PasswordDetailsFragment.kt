@@ -9,18 +9,28 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rohitjakhar.hashpass.R
 import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.databinding.FragmentPasswordDetailsBinding
+import com.rohitjakhar.hashpass.utils.Resource
+import com.rohitjakhar.hashpass.utils.loadingView
+import com.rohitjakhar.hashpass.utils.messageDialog
+import com.rohitjakhar.hashpass.utils.optionDialog
+import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class PasswordDetailsFragment : Fragment() {
     private var _binding: FragmentPasswordDetailsBinding? = null
     private val binding get() = _binding!!
+    private val viewModel by viewModels<PasswordDetailsVM>()
     private val navArgs: PasswordDetailsFragmentArgs by navArgs()
+    private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -109,8 +119,45 @@ class PasswordDetailsFragment : Fragment() {
                 )
                 true
             }
+            R.id.menu_delete -> {
+                requireContext().optionDialog(
+                    "Are you want to delete this password?",
+                    { yesClickDialogInterface ->
+                        viewModel.deletePassword(passwordId = navArgs.passwordDetails.uuid)
+                        collectDelete()
+                        yesClickDialogInterface.dismiss()
+                    },
+                    { noClickDialogInterface ->
+                        noClickDialogInterface.dismiss()
+                    }
+                )
+                true
+            }
             else -> {
                 false
+            }
+        }
+    }
+
+    private fun collectDelete() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.deleteState.collectLatest {
+                when (it) {
+                    is Resource.Error -> {
+                        loadingView.dismiss()
+                        toast(it.message)
+                    }
+                    is Resource.Loading -> {
+                        loadingView.show()
+                    }
+                    is Resource.Sucess -> {
+                        loadingView.dismiss()
+                        requireContext().messageDialog("Password Successfully Deleted!") { dialogInterface ->
+                            dialogInterface.dismiss()
+                            findNavController().navigateUp()
+                        }
+                    }
+                }
             }
         }
     }

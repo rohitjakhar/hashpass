@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModels<HomeVM>()
     private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
-    private val passwordModelList = mutableListOf<PasswordModel>()
+    private val passwordModelList = mutableSetOf<PasswordModel>()
     private val passwordAdapter by lazy {
         PasswordAdapter { passwordId ->
             findNavController().navigate(
@@ -78,7 +78,8 @@ class HomeFragment : Fragment() {
             if (it) {
                 Log.d("test", "true ")
             } else {
-                passwordAdapter.submitList(passwordModelList)
+                passwordAdapter.currentList.clear()
+                passwordAdapter.submitList(passwordModelList.toList())
                 Log.d("test", "false")
             }
         }
@@ -121,7 +122,7 @@ class HomeFragment : Fragment() {
                         binding.rvPassword.show()
                         loadingView.dismiss()
                         passwordModelList.addAll(it.data!!)
-                        passwordAdapter.submitList(passwordModelList)
+                        passwordAdapter.submitList(passwordModelList.toList())
                     }
                 }
             }

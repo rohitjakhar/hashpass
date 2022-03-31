@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.avatarfirst.avatargenlib.AvatarConstants
 import com.avatarfirst.avatargenlib.AvatarGenerator
 import com.rohitjakhar.hashpass.data.model.PasswordModel
 import com.rohitjakhar.hashpass.databinding.ItemPasswordBinding
@@ -58,7 +57,7 @@ class PasswordAdapter(private val onClick: (PasswordModel) -> Unit) :
             }
 
             override fun areItemsTheSame(oldItem: PasswordModel, newItem: PasswordModel): Boolean {
-                return oldItem == newItem
+                return oldItem.uuid == newItem.uuid
             }
         }
     }
