@@ -41,6 +41,7 @@ class PasswordAdapter(private val onClick: (PasswordModel) -> Unit) :
                     .setLabel(data.title.uppercase(Locale.getDefault()))
                     .build()
             )
+
             root.setOnClickListener {
                 onClick.invoke(data)
             }

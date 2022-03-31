@@ -14,9 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HashLock">
         <activity
-            android:name=".presention.on_boarding.OnBoardActivity"
-            android:exported="false" />
-        <activity
             android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
@@ -30,7 +27,8 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false"/>
 
         <meta-data
             android:name="preloaded_fonts"

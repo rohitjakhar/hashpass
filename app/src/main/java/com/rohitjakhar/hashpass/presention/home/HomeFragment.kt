@@ -29,10 +29,10 @@ class HomeFragment : Fragment() {
     private val loadingView by lazy { requireActivity().loadingView(cancelable = false) }
     private val passwordModelList = mutableSetOf<PasswordModel>()
     private val passwordAdapter by lazy {
-        PasswordAdapter { passwordId ->
+        PasswordAdapter { passwordModel ->
             findNavController().navigate(
                 HomeFragmentDirections.actionNavHomeToPasswordDetailsFragment(
-                    passwordId
+                    passwordModel
                 )
             )
         }

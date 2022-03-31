@@ -53,7 +53,8 @@ class RemoteRepo @Inject constructor(
                                 title = it.Title(),
                                 uuid = it.uuid().toString(),
                                 createdAt = it.createdAt().toString().toLongOrNull() ?: 0L,
-                                userId = it.username().toString()
+                                userId = it.username().toString(),
+                                remarks = it.remarks().toString()
                             )
                         )
                     }

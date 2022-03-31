@@ -44,11 +44,7 @@ fun Fragment.toast(message: String) {
 
 fun Fragment.copyText(text: String) {
     val clipboardManager =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            this.requireContext().getSystemService(ClipboardManager::class.java) as ClipboardManager
-        } else {
-            TODO("VERSION.SDK_INT < M")
-        }
+        this.requireContext().getSystemService(ClipboardManager::class.java) as ClipboardManager
     val clipData = ClipData.newPlainText("text", text)
     clipboardManager.setPrimaryClip(clipData)
 }
