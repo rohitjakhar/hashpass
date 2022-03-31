@@ -1,5 +1,6 @@
 package com.rohitjakhar.hashpass.presention.password_details
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +20,9 @@ import com.rohitjakhar.hashpass.databinding.FragmentPasswordDetailsBinding
 import com.rohitjakhar.hashpass.utils.Resource
 import com.rohitjakhar.hashpass.utils.loadingView
 import com.rohitjakhar.hashpass.utils.messageDialog
+import com.rohitjakhar.hashpass.utils.openInBrowser
 import com.rohitjakhar.hashpass.utils.optionDialog
+import com.rohitjakhar.hashpass.utils.toLink
 import com.rohitjakhar.hashpass.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -83,6 +86,15 @@ class PasswordDetailsFragment : Fragment() {
             val shareIntent = Intent.createChooser(sendIntent, "Share Password")
             requireContext().startActivity(shareIntent)
         }
+        btnLaunchWebsite.setOnClickListener {
+            try {
+                requireActivity().openInBrowser(navArgs.passwordDetails.url.toLink())
+            } catch (e: ActivityNotFoundException) {
+                toast("Invalid URL")
+            } catch (e: Exception) {
+                toast(e.localizedMessage ?: "Unknown Error")
+            }
+        }
     }
 
     private fun initView() = binding.apply {
@@ -130,7 +142,7 @@ class PasswordDetailsFragment : Fragment() {
                     { noClickDialogInterface ->
                         noClickDialogInterface.dismiss()
                     }
-                )
+                ).show()
                 true
             }
             else -> {

@@ -88,10 +88,10 @@ class RemoteRepo @Inject constructor(
                     passwordModel.uuid.toInputAny()
                 )
             ).await()
-            if (task.hasErrors()) {
-                return Resource.Error(message = task.errors?.first()?.message ?: "Unknown Error")
+            return if (task.hasErrors()) {
+                Resource.Error(message = task.errors?.first()?.message ?: "Unknown Error")
             } else {
-                return Resource.Sucess(Unit)
+                Resource.Sucess(Unit)
             }
         } catch (e: Exception) {
             return Resource.Error(message = e.localizedMessage ?: "Unknown Error")
@@ -119,7 +119,7 @@ class RemoteRepo @Inject constructor(
                     passwordModel.createdAt.toInputAny(),
                     passwordModel.description.toInputString(),
                     passwordModel.email.toInputString(),
-                    passwordModel.passwordHash.encrypt(passwordModel.uuid).toInputString(),
+                    passwordModel.passwordHash.encrypt(password = "hashpass").toInputString(),
                     passwordModel.remarks.toInputString(),
                     passwordModel.securityQuestion.toInputString(),
                     passwordModel.securityAnswer.toInputString(),
@@ -128,10 +128,10 @@ class RemoteRepo @Inject constructor(
                     passwordModel.uuid.toInputAny()
                 )
             ).await()
-            if (!task.hasErrors()) {
-                return Resource.Sucess(Unit)
+            return if (!task.hasErrors()) {
+                Resource.Sucess(Unit)
             } else {
-                return Resource.Error(message = task.errors?.first()?.message ?: "Unknown Error")
+                Resource.Error(message = task.errors?.first()?.message ?: "Unknown Error")
             }
         } catch (e: Exception) {
             return Resource.Error(message = e.localizedMessage ?: "Unknown Error")

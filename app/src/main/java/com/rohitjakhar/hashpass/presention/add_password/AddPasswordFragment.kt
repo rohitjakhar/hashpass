@@ -71,12 +71,27 @@ class AddPasswordFragment : Fragment() {
         btnAddPassword.setOnClickListener {
             if (invalidate()) {
                 collectAddPasswordState()
+                if (navArgs.passwordDetails != null) {
+                    viewModel.updatePassword(
+                        navArgs.passwordDetails!!.copy(
+                            email = inputEmail.getText(),
+                            title = inputTitle.getText(),
+                            url = inputUrl.getText(),
+                            passwordHash = inputPassword.getText(),
+                            securityQuestion = inputSecurityQuesetion.getText(),
+                            securityAnswer = inputSecurityQuesetion.getText(),
+                            description = inputDescription.getText(),
+                            remarks = inputRemarks.getText(),
+                            userName = inputUserName.getText(),
+                        )
+                    )
+                }
                 viewModel.addPassword(
                     PasswordModel(
                         email = inputEmail.getText(),
                         title = inputTitle.getText(),
                         url = inputUrl.getText(),
-                        passwordHash = inputUrl.getText(),
+                        passwordHash = inputPassword.getText(),
                         securityQuestion = inputSecurityQuesetion.getText(),
                         securityAnswer = inputSecurityQuesetion.getText(),
                         description = inputDescription.getText(),

@@ -237,3 +237,14 @@ fun Activity.bioMetricsPrompts() {
     )
     biometricPrompt.authenticate(promptInfo)
 }
+
+fun String.toLink(): String {
+    var url: String = this
+    if (!url.startsWith("www.") && !url.startsWith("http://")) {
+        url = "www.$url"
+    }
+    if (!url.startsWith("http://")) {
+        url = "http://$url"
+    }
+    return url
+}

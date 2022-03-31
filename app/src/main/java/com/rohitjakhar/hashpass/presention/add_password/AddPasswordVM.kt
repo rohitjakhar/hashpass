@@ -25,6 +25,13 @@ class AddPasswordVM @Inject constructor(
         }
     }
 
+    fun updatePassword(passwordModel: PasswordModel) {
+        viewModelScope.launch(IO) {
+            addPasswordStatus.emit(Resource.Loading())
+            addPasswordStatus.emit(remoteRepo.updatePassword(passwordModel))
+        }
+    }
+
     fun generatePassword(): String {
         var password = ""
         val list = ArrayList<Int>()
