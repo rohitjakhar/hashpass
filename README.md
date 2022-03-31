@@ -1,4 +1,4 @@
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1648733632457/dwMKE8lY8.png)
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1648736102420/r_3hfiPgN.png)
 
 # **HashPass**
 
