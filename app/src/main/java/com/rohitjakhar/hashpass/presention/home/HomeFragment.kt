@@ -1,7 +1,6 @@
 package com.rohitjakhar.hashpass.presention.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,7 +64,6 @@ class HomeFragment : Fragment() {
 
     private fun handleSearch() = binding.apply {
         searchViewPassword.setOnApplySearchListener {
-            Log.d("test", "clicked: $it")
         }
         searchViewPassword.setOnSearchListener { changedText ->
             passwordAdapter.submitList(
@@ -75,12 +73,11 @@ class HomeFragment : Fragment() {
             )
         }
         searchViewPassword.initToggleListener {
-            if (it) {
-                Log.d("test", "true ")
-            } else {
-                passwordAdapter.currentList.clear()
-                passwordAdapter.submitList(passwordModelList.toList())
-                Log.d("test", "false")
+            if (!it) {
+                if (passwordAdapter.currentList.isNotEmpty()) {
+                    passwordAdapter.currentList.clear()
+                    passwordAdapter.submitList(passwordModelList.toList())
+                }
             }
         }
     }
